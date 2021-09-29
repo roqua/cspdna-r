@@ -1,0 +1,18 @@
+Package: ggzcentraal
+Title: Creates Relevant Figures from GGZ-centraal data
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Gert",
+           family = "Stulp",
+           role = c("aut", "cre"),
+           email = "g.stulp@rug.nl",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Package uses data from Roqua-system collected by GGZ-centraal and creates relevant figures and a poster.
+License: use_mit_license()
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
