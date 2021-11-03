@@ -257,7 +257,7 @@ prepare_data <- function(data) {
     mutate_at(vars(all_of(grid_nms_mw)), as.numeric) %>%
     # Select only relevant variables
     select(all_of(c("Datum", circle_vars_nms, grid_nms_mw,
-                    "csp_dna_55a", "csp_dna_56a",
+                    "csp_dna_55a", "csp_dna_55_a0", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_77a", "csp_dna_78a",
                     "csp_dna_fase")))
 
