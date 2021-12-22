@@ -76,7 +76,7 @@ viz_nw <- function(data, output = "poster") {
   # Add variable label in circle
   plot <- plot +
     geom_text(aes(label = abbr), colour = "white") +
-    guides(colour = FALSE, size = FALSE)
+    guides(colour = "none", size = "none")
 
   if(output == "slider") {
     # Add event labels for slider
@@ -94,7 +94,8 @@ viz_nw <- function(data, output = "poster") {
                 aes(xmin = -Inf, xmax = Inf,
                     ymin = -1.21, ymax = -1.26, fill = factor(csp_dna_fase)), inherit.aes = FALSE) +
       scale_fill_manual(values = c("1" = "green3", "2" = "yellow2",
-                                   "3" = "darkorange", "4" = "firebrick2"), guide = FALSE) +
+                                   "3" = "darkorange", "4" = "firebrick2"), 
+                        guide = "none") +
       ylim(c(-1.27, 1.27))
 
 
@@ -114,7 +115,8 @@ viz_nw <- function(data, output = "poster") {
                 aes(xmin = -Inf, xmax = Inf,
                     ymin = -1.21, ymax = -1.26, fill = factor(csp_dna_fase)), inherit.aes = FALSE) +
       scale_fill_manual(values = c("1" = "green3", "2" = "yellow2",
-                                   "3" = "darkorange", "4" = "firebrick2"), guide = FALSE) +
+                                   "3" = "darkorange", "4" = "firebrick2"), 
+                        guide = "none") +
       ylim(c(-1.27, 1.27))
   }
 

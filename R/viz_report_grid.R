@@ -1,10 +1,11 @@
 #' Creates grid visualisation for feedback-report 
 #'
 #' @param data A dataframe in pre-specified format through "prepare_data"
+#' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return A ggplot-object ('grid'-visualisation)
 #' @import ggplot2 dplyr
 #' @export
-viz_report_grid <- function(data) {
+viz_report_grid <- function(data, output_format = "svg") {
 
   # New names of all variables in grid
   grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
@@ -51,14 +52,15 @@ viz_report_grid <- function(data) {
            "Afgesproken", "Buiten", "Anders", "Werken", "Opleiding", "Kind_zorg", 
            "Wassen", "Koken", "Schoonmaken_verplichting", "Boodschappen", 
            "Afspraken_nakomen")
-  
+
   # Create dataframe with sample sizes for each fase
   n_fase_grid <- data %>%
+    mutate(csp_dna_fase = factor(csp_dna_fase, levels = c(1, 2, 3, 4))) %>% 
     filter(!is.na(csp_dna_fase)) %>%
-    group_by(csp_dna_fase) %>% 
+    group_by(csp_dna_fase, .drop = FALSE) %>% 
     summarise(n_fase = n()) %>% 
     mutate(labels = paste0(csp_dna_fase, " ( ", n_fase, " )"))
-  
+
   # Vector with labels for facets
   to_string <- as_labeller(c(`1` = n_fase_grid$labels[1],
                              `2` = n_fase_grid$labels[2],
@@ -66,8 +68,9 @@ viz_report_grid <- function(data) {
                              `4` = n_fase_grid$labels[4]))
 
   # Create dataframe with counts of each behaviour in each fase
-  data %>%
+  data_for_plot <- data %>%
     select(Datum, all_of(grid_nms_mw), csp_dna_fase) %>%
+    mutate(csp_dna_fase = factor(csp_dna_fase, levels = c(1, 2, 3, 4))) %>%
     gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
     filter(!is.na(csp_dna_fase)) %>%
     group_by(csp_dna_fase, Variabele, .drop = FALSE) %>%
@@ -79,11 +82,12 @@ viz_report_grid <- function(data) {
     mutate(prop = 100 * behaviour_sum / n_fase) %>%
     # Add colours to behaviours
     mutate(clr = case_when(Variabele %in% neg ~ "#CC79A7",
-                           Variabele %in% pos ~ "#56B4E9")) %>%
-    # Create ggplot
-    ggplot(aes(x = fct_reorder(Variabele, prop), y = prop)) +
+                           Variabele %in% pos ~ "#56B4E9")) 
+    
+  # Create ggplot
+  ggplot(data_for_plot, aes(x = fct_reorder(Variabele, prop), y = prop)) +
     geom_bar(stat = "identity", aes(fill = clr)) +
-    scale_y_continuous(limits = c(0, 100)) +
+    scale_y_continuous(limits = c(0, 100), guide = guide_axis(n.dodge = 3)) +
     scale_fill_identity() +
     facet_grid(.~csp_dna_fase, scales = "free_x", labeller = to_string) +
     theme_linedraw() +
@@ -104,8 +108,12 @@ viz_report_grid <- function(data) {
     g$grobs[[i]]$grobs[[1]]$children[[j]]$gp$fill <- fills[k]
     k <- k+1
   }
-  
-  svg(file = "viz_report_grid.svg", height = 7.5, width = 5)
-  grid.draw(g)
-  dev.off()
+
+  if(output_format == "ggplot") {
+    grid.draw(g)
+  } else {
+    svg(file = "viz_report_grid.svg", height = 7.5, width = 5)
+    grid.draw(g)
+    dev.off()
+  }
 }

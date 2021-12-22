@@ -1,9 +1,10 @@
 #' Creates first visualisation for feedback-report (response-rate)
 #'
 #' @param data A dataframe with raw data
+#' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return An svg of visualisation
 #' @export
-viz_report_response <- function(variable) {
+viz_report_response <- function(variable, output_format = "svg") {
 
   responded <- sum(is.na(variable))
   total <- length(variable)
@@ -11,7 +12,7 @@ viz_report_response <- function(variable) {
   
   title <- paste0(responded, " uit ", total, " metingen ingevuld")
   
-  ggplot(data = data.frame(x = 0, y = resp), aes(x = x, y = y)) +
+  g <- ggplot(data = data.frame(x = 0, y = resp), aes(x = x, y = y)) +
     geom_bar(data = data.frame(x = 0, y = 100), 
              stat = "identity", fill = "#4F71BE", colour = "darkgrey") +
     geom_bar(stat = "identity", fill = "#DF8344") +
@@ -24,4 +25,12 @@ viz_report_response <- function(variable) {
       plot.title = element_text(hjust = 0.5, size = 18)
     )
 
+  if(output_format == "ggplot") {
+    g
+  } else {
+    svg(file = "viz_report_response.svg", height = 1.5, width = 5)
+    print(g)
+    dev.off() 
+  }
+  
 }

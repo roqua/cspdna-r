@@ -1,13 +1,20 @@
 #' Create clean, long dataset from data received from Roqua
 #'
-#' @param data A dataframe in pre-specified format (414 variables)
+#' @param data A dataframe in pre-specified format (429 variables)
 #' @return A clean dataframe that can be used for visualization
 #' @import dplyr
 #' @importFrom lubridate as_datetime
 #' @export
 prepare_data <- function(data) {
 
-  should_include <- c("roqua_id", "patient_id", "gender", "birth_year", "respondent_id",
+  # If dataset does not have right number of variables, then stop
+  if(length(names(data)) != 429 ) {
+    stop("Dataset does not have right number of variables (429)")
+  }
+  
+  should_include <- c("roqua_id", "patient_id", "gender", "birth_year", 
+    "hide_pii_from_researchers",	"hide_values_from_professionals", # New vars
+    "respondent_id",
     "respondent_type", "respondent_label", "csp_dna_id", "csp_dna_protocol",
     "csp_dna_project", "csp_dna_measurement", "csp_dna_notes", "csp_dna_location",
     "csp_dna_invited_at", "csp_dna_emailed_at", "csp_dna_open_from",
@@ -41,14 +48,19 @@ prepare_data <- function(data) {
     "csp_dna_63a_a2", "csp_dna_63a_a3", "csp_dna_63a_a4", "csp_dna_63a_a5",
     "csp_dna_63a_a6", "csp_dna_63a_a7", "csp_dna_63a_a8", "csp_dna_63a_a9",
     "csp_dna_63a_a10", "csp_dna_63a_a11", "csp_dna_63a_a12", "csp_dna_63a_a13",
+    "csp_dna_63a_a14", "csp_dna_63a_a14a", # New vars
     "csp_dna_63a_na", "csp_dna_64", "csp_dna_64a_a1", "csp_dna_64a_a2",
     "csp_dna_64a_a3", "csp_dna_64a_a4", "csp_dna_64a_a5", "csp_dna_64a_a6",
     "csp_dna_64a_a7", "csp_dna_64a_a8", "csp_dna_64a_a9", "csp_dna_64a_a10",
-    "csp_dna_64a_a11", "csp_dna_64a_a12", "csp_dna_64a_a13", "csp_dna_64a_na",
+    "csp_dna_64a_a11", "csp_dna_64a_a12", "csp_dna_64a_a13", 
+    "csp_dna_64a_a14", "csp_dna_64a_a14a", # New vars
+    "csp_dna_64a_na",
     "csp_dna_65", "csp_dna_65a_a1", "csp_dna_65a_a2", "csp_dna_65a_a3",
     "csp_dna_65a_a4", "csp_dna_65a_a5", "csp_dna_65a_a6", "csp_dna_65a_a7",
     "csp_dna_65a_a8", "csp_dna_65a_a9", "csp_dna_65a_a10", "csp_dna_65a_a11",
-    "csp_dna_65a_a12", "csp_dna_65a_a13", "csp_dna_65a_na", "csp_dna_66",
+    "csp_dna_65a_a12", "csp_dna_65a_a13", 
+    "csp_dna_65a_a14", "csp_dna_65a_a14a", # New vars
+    "csp_dna_65a_na", "csp_dna_66",
     "csp_dna_66a_a1", "csp_dna_66a_a2", "csp_dna_66a_a3", "csp_dna_66a_a4",
     "csp_dna_66a_na", "csp_dna_67", "csp_dna_67a_a1", "csp_dna_67a_a2",
     "csp_dna_67a_a3", "csp_dna_67a_a4", "csp_dna_67a_a5", "csp_dna_67a_a6",
@@ -66,7 +78,12 @@ prepare_data <- function(data) {
     "csp_dna_70", "csp_dna_70a_a1", "csp_dna_70a_a2", "csp_dna_70a_a3",
     "csp_dna_70a_a4", "csp_dna_70a_a5", "csp_dna_70a_a6", "csp_dna_70a_a7",
     "csp_dna_70a_a8", "csp_dna_70a_a9", "csp_dna_70a_a10", "csp_dna_70a_a11",
-    "csp_dna_70a_a12", "csp_dna_70a_na", "csp_dna_71", "csp_dna_71a_a1",
+    "csp_dna_70a_a12", 
+    "csp_dna_70a_a13", "csp_dna_70a_a13a", # New vars
+    "csp_dna_70a_na", 
+    # New sleep variables
+    "csp_dna_79",	"csp_dna_79a",	"csp_dna_79b",
+    "csp_dna_71", "csp_dna_71a_a1",
     "csp_dna_71a_a2", "csp_dna_71a_a3", "csp_dna_71a_a4", "csp_dna_71a_a5",
     "csp_dna_71a_a6", "csp_dna_71a_na", "csp_dna_72", "csp_dna_72a_a1",
     "csp_dna_72a_a2", "csp_dna_72a_a3", "csp_dna_72a_a4", "csp_dna_72a_a5",
@@ -104,7 +121,9 @@ prepare_data <- function(data) {
     "csp_dna_zorg_1", "csp_dna_zorg_2", "csp_dna_destr", "csp_dna_destr_1",
     "csp_dna_destr_2", "csp_dna_destr_3", "csp_dna_suic", "csp_dna_suic_1",
     "csp_dna_activ", "csp_dna_activ_1", "csp_dna_activ_2", "csp_dna_activ_3",
-    "csp_dna_neur", "csp_dna_neur_1", "csp_dna_psych", "csp_dna_psych_1",
+    "csp_dna_neur", "csp_dna_neur_1", 
+    "csp_dna_slaap",	"csp_dna_slaap_1", # New vars
+    "csp_dna_psych", "csp_dna_psych_1",
     "csp_dna_plicht", "csp_dna_plicht_1", "csp_dna_plicht_2", "csp_dna_onaard",
     "csp_dna_onaard_1", "csp_dna_onaard_2", "csp_dna_somat", "csp_dna_somat_1",
     "csp_dna_plezier", "csp_dna_plezier_1", "csp_dna_onplzr", "csp_dna_onplzr_1"
@@ -200,53 +219,130 @@ prepare_data <- function(data) {
                        "Activiteiten", "Onrustig", "Bijzondere_ervaringen",
                        "Verplichtingen", "Negatief_contact",
                        "Lichamelijke_klachten", "Plezierig", "Onplezierig")
+  
+  # Long code to determine which variables were used and should be included in graphics
+  # Names of variables Terugtrekken, "...a_na" not included
+  tt <- c("csp_dna_58","csp_dna_59","csp_dna_60")
+  # Name of variable that is not empty
+  tt_sel <- tt[colSums(!is.na(data[, tt])) > 0]
+  # Names of variables for grid
+  tt_vars <- paste0(tt_sel, paste0("a_a", 1:6))
+  
+  # Names of variables Zelfzorg, "...a_na" not included
+  zz <- c("csp_dna_61","csp_dna_62")
+  # Name of variable that is not empty
+  zz_sel <- zz[colSums(!is.na(data[, zz])) > 0]
+  # Names of variables for grid
+  zz_vars <- paste0(zz_sel, paste0("a_a", 1:6))
+  
+  # Names of variables Destructief, "...a_a14a" & "...a_na" not included
+  de <- c("csp_dna_63","csp_dna_64","csp_dna_65")
+  # Name of variable that is not empty
+  de_sel <- de[colSums(!is.na(data[, de])) > 0]
+  # Names of variables for grid
+  de_vars <- paste0(de_sel, paste0("a_a", 1:14))
 
+  # Names of variables Suicidaliteit, "...a_na" not included
+  su_vars <- c("csp_dna_66a_a1", "csp_dna_66a_a2", "csp_dna_66a_a3", "csp_dna_66a_a4")
+  
+  # Names of variables Activiteiten, "...a_a14a" & "...a_na" not included
+  ac <- c("csp_dna_67","csp_dna_68","csp_dna_69")
+  # Name of variable that is not empty
+  ac_sel <- ac[colSums(!is.na(data[, ac])) > 0]
+  # Names of variables for grid
+  ac_vars <- paste0(ac_sel, paste0("a_a", 1:14))  
+  
+  # Names of variables Onrustig, "...a_a13", "...a_a13a" & "...a_na" not included
+  on_vars <- c("csp_dna_70a_a1", "csp_dna_70a_a2", "csp_dna_70a_a3", 
+               "csp_dna_70a_a4", "csp_dna_70a_a5", "csp_dna_70a_a6", 
+               "csp_dna_70a_a7", "csp_dna_70a_a8", "csp_dna_70a_a9",
+               "csp_dna_70a_a10", "csp_dna_70a_a11", "csp_dna_70a_a12")
+
+  
+  # Names of variables Bijzondere / Psychiatrische ervaringen, 
+  # "...a_na" not included
+  be_vars <- c("csp_dna_71a_a1", "csp_dna_71a_a2", "csp_dna_71a_a3", 
+               "csp_dna_71a_a4", "csp_dna_71a_a5", "csp_dna_71a_a6")
+  
+  # Names of variables Verplichtingen, "...a_na" not included
+  ve <- c("csp_dna_72","csp_dna_73")
+  # Name of variable that is not empty
+  ve_sel <- ve[colSums(!is.na(data[, ve])) > 0]
+  # Names of variables for grid
+  ve_vars <- paste0(ve_sel, paste0("a_a", 1:8))  
+  
+  # Names of variables Negatief contact, "...a_na" not included
+  nc <- c("csp_dna_74","csp_dna_75")
+  # Name of variable that is not empty
+  nc_sel <- nc[colSums(!is.na(data[, nc])) > 0]
+  # Names of variables for grid
+  nc_vars <- paste0(nc_sel, paste0("a_a", 1:4))  
+  
+  # Names of variables Lichamelijke klachten, "...a_na" not included 
+  lc_vars <- c("csp_dna_76a_a1", "csp_dna_76a_a2", "csp_dna_76a_a3",
+               "csp_dna_76a_a4", "csp_dna_76a_a5", "csp_dna_76a_a6", 
+               "csp_dna_76a_a7", "csp_dna_76a_a8", "csp_dna_76a_a9", 
+               "csp_dna_76a_a10", "csp_dna_76a_a11", "csp_dna_76a_a12", 
+               "csp_dna_76a_a13", "csp_dna_76a_a14", "csp_dna_76a_a15",
+               "csp_dna_76a_a16")
+  
+  
+  
+  
+  # lichamelijke_kla = c("csp_dna_76")
+  # plezierig = c("csp_dna_77")
+  # onplezierig = c("csp_dna_78")
+  
   # Names of all variables in grid
-  grid_nms <- c("csp_dna_58a_a1", "csp_dna_58a_a2", "csp_dna_58a_a3", "csp_dna_58a_a4",
-                "csp_dna_58a_a5", "csp_dna_58a_a6", "csp_dna_61a_a1", "csp_dna_61a_a2",
-                "csp_dna_61a_a3", "csp_dna_61a_a4", "csp_dna_61a_a5", "csp_dna_61a_a6",
-                "csp_dna_65a_a1", "csp_dna_65a_a2", "csp_dna_65a_a3", "csp_dna_65a_a4",
-                "csp_dna_65a_a5", "csp_dna_65a_a6", "csp_dna_65a_a7", "csp_dna_65a_a8",
-                "csp_dna_65a_a9", "csp_dna_65a_a10", "csp_dna_65a_a11", "csp_dna_65a_a12",
-                "csp_dna_65a_a13", "csp_dna_66a_a1", "csp_dna_66a_a2", "csp_dna_66a_a3",
-                "csp_dna_66a_a4", "csp_dna_69a_a1", "csp_dna_69a_a2", "csp_dna_69a_a3",
-                "csp_dna_69a_a4", "csp_dna_69a_a5", "csp_dna_69a_a6", "csp_dna_69a_a7",
-                "csp_dna_69a_a8", "csp_dna_69a_a9", "csp_dna_69a_a10", "csp_dna_69a_a11",
-                "csp_dna_69a_a12", "csp_dna_69a_a13", "csp_dna_69a_a14", "csp_dna_70a_a1",
-                "csp_dna_70a_a2", "csp_dna_70a_a3", "csp_dna_70a_a4", "csp_dna_70a_a5",
-                "csp_dna_70a_a6", "csp_dna_70a_a7", "csp_dna_70a_a8", "csp_dna_70a_a9",
-                "csp_dna_70a_a10", "csp_dna_70a_a11", "csp_dna_70a_a12", "csp_dna_71a_a1",
-                "csp_dna_71a_a2", "csp_dna_71a_a3", "csp_dna_71a_a4", "csp_dna_71a_a5",
-                "csp_dna_71a_a6", "csp_dna_73a_a1", "csp_dna_73a_a2", "csp_dna_73a_a3",
-                "csp_dna_73a_a4", "csp_dna_73a_a5", "csp_dna_73a_a6", "csp_dna_73a_a7",
-                "csp_dna_73a_a8", "csp_dna_74a_a1", "csp_dna_74a_a2", "csp_dna_74a_a3",
-                "csp_dna_74a_a4", "csp_dna_76a_a1", "csp_dna_76a_a2", "csp_dna_76a_a3",
-                "csp_dna_76a_a4", "csp_dna_76a_a5", "csp_dna_76a_a6", "csp_dna_76a_a7",
-                "csp_dna_76a_a8", "csp_dna_76a_a9", "csp_dna_76a_a10", "csp_dna_76a_a11",
-                "csp_dna_76a_a12", "csp_dna_76a_a13", "csp_dna_76a_a14", "csp_dna_76a_a15",
-                "csp_dna_76a_a16")
+  grid_nms <- c(tt_vars, # names of 6 variables on terugtrekken
+                zz_vars, # names of 6 variables on zelfzorg
+                de_vars, # names of 14 variables on Destructief
+                su_vars, # names of 4 variables on Suicidaliteit
+                ac_vars, # names of 14 variables on Activiteiten
+                on_vars, # names of 12 variables on Onrustig / Neurotisch
+                be_vars, # names of 6 variables on Bijzondere ervaringen
+                ve_vars, # names of 8 variables on Verplichtingen
+                nc_vars, # names of 4 variables on Negatief contact
+                lc_vars # names of 16 variables on Negatief contact
+                )
 
   # New names of all variables in grid
-  grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
-                   "Douchen", "Dag_nacht_ritme", "Eten", "Bewogen", "Recept_Medicatie",
-                   "Medicatie_ingenomen", "Snijden", "Bonken_hoofd", "Krabben",
-                   "Krassen", "Slaan_vuist", "Anderen_schade", "Spullen_kapot",
-                   "Uitrekken_haren", "Alcohol_drugs", "Uitgeven_geld", "Gokken",
-                   "Seksueel_risicovol", "Eetbui", "Passieve_gedachtes", "Actieve_gedachtes",
-                   "Afscheidsbrief", "Concreet_plan", "TV", "Muziek", "Yoga", "Wandelen",
-                   "Creatief", "Lezen", "Sporten", "Huishouden", "Spelletje", "Slapen",
-                   "Contact_zoeken", "Afgesproken", "Buiten", "Anders", "Nagelbijten",
-                   "Ijsberen", "Mouw_trekken", "Schoonmaken", "Roken", "Praten_anders",
-                   "Uitpraten_niet", "Piekeren", "Dwanghandelingen", "Contact_veel",
-                   "Alleen_niet", "Beslissingen_zelf", "Stemmen", "Schimmen", "Dissociaties",
-                   "Achterdochtig", "Opdracht_krijgen", "Herbeleving", "Werken",
-                   "Opleiding", "Kind_zorg", "Wassen", "Koken", "Schoonmaken_verplichting",
-                   "Boodschappen", "Afspraken_nakomen", "Telefoon_onaardig", "Face_to_face_onaardig",
-                   "Whatsapp_onaardig", "Social_media_onaardig", "Ademhalingsproblemen",
-                   "Pijn_borst", "Hartkloppingen", "Misselijkheid", "Ontlasting",
-                   "Buikpijn", "Hoofdpijn", "Duizeligheid", "Vermoeidheid", "Rugpijn",
-                   "Spierpijn", "Tintelingen", "Zweten", "Veel_slapen", "Weinig_slapen",
-                   "Nachtmerries")
+  grid_nms_mw <- c(
+    # New names for terugtrekken
+    "Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
+    # New names for zelfzorg               
+    "Douchen", "Dag_nacht_ritme", "Eten", "Bewogen", "Recept_Medicatie",
+    "Medicatie_ingenomen", 
+    # New names for destructief               
+    "Snijden", "Bonken_hoofd", "Krabben",
+    "Krassen", "Slaan_vuist", "Anderen_schade", "Spullen_kapot",
+    "Uitrekken_haren", "Alcohol_drugs", "Uitgeven_geld", "Gokken",
+    "Seksueel_risicovol", "Eetbui", "Destructie_Anders",
+    # New names for suicidaliteit
+    "Passieve_gedachtes", "Actieve_gedachtes",
+    "Afscheidsbrief", "Concreet_plan", 
+    # New names for activiteiten
+    "TV", "Muziek", "Yoga", "Wandelen", "Creatief", "Lezen", "Sporten", 
+    "Huishouden", "Spelletje", "Slapen", "Contact_zoeken", "Afgesproken", 
+    "Buiten", "Anders", 
+    # New names for onrustig
+    "Nagelbijten", "Ijsberen", "Mouw_trekken", "Schoonmaken", "Roken", 
+    "Praten_anders", "Uitpraten_niet", "Piekeren", "Dwanghandelingen", 
+    "Contact_veel", "Alleen_niet", "Beslissingen_zelf", 
+    # New names for Bijzondere ervaringen
+    "Stemmen", "Schimmen", "Dissociaties", "Achterdochtig", 
+    "Opdracht_krijgen", "Herbeleving", 
+    # New names for Verplichtingen
+    "Werken", "Opleiding", "Kind_zorg", "Wassen", "Koken", 
+    "Schoonmaken_verplichting", "Boodschappen", "Afspraken_nakomen", 
+    # New names for negatief ontact
+    "Telefoon_onaardig", "Face_to_face_onaardig",
+    "Whatsapp_onaardig", "Social_media_onaardig", 
+    # New names for lichamelijke klachten
+    "Ademhalingsproblemen", "Pijn_borst", "Hartkloppingen", "Misselijkheid", 
+    "Ontlasting", "Buikpijn", "Hoofdpijn", "Duizeligheid", "Vermoeidheid", 
+    "Rugpijn", "Spierpijn", "Tintelingen", "Zweten", "Veel_slapen", 
+    "Weinig_slapen", "Nachtmerries")
 
   # Rename network variables into more sensible names
   data <- data %>%
@@ -259,6 +355,8 @@ prepare_data <- function(data) {
     select(all_of(c("Datum", circle_vars_nms, grid_nms_mw,
                     "csp_dna_55a", "csp_dna_55_a0", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_77a", "csp_dna_78a",
+                    # Added sleep variables
+                    "csp_dna_79",	"csp_dna_79a",	"csp_dna_79b",
                     "csp_dna_fase")))
 
   # Create interval variables
