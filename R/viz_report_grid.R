@@ -85,7 +85,7 @@ viz_report_grid <- function(data, output_format = "svg") {
                            Variabele %in% pos ~ "#56B4E9")) 
     
   # Create ggplot
-  ggplot(data_for_plot, aes(x = fct_reorder(Variabele, prop), y = prop)) +
+  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop), y = prop)) +
     geom_bar(stat = "identity", aes(fill = clr)) +
     scale_y_continuous(limits = c(0, 100), guide = guide_axis(n.dodge = 3)) +
     scale_fill_identity() +
