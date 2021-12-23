@@ -3,7 +3,7 @@
 #' @param data A dataframe in pre-specified format through "prepare_data"
 #' @param output String ("poster" or "slider") indicating which labels are presented
 #' @return A ggplot-object ('circle' visualisation)
-#' @import ggplot2 dplyr tidyr
+#' @import dplyr ggplot2 tidyr
 #' @export
 viz_nw <- function(data, output = "poster") {
   # Vector with variable names of negative emotions

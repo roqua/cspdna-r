@@ -3,7 +3,7 @@
 #' @param data A dataframe with raw data
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return An svg of visualisation
-#' @import ggplot2 dplyr tidyr forcats
+#' @import forcats ggplot2 dplyr tidyr
 #' @export
 viz_report_behaviour <- function(data, output_format = "svg") {
 
@@ -41,7 +41,7 @@ viz_report_behaviour <- function(data, output_format = "svg") {
                              `4` = n_fase_grid$labels[4]))
   
   ggplot(filter(long, !is.na(csp_dna_fase)),
-         aes(x = fct_reorder(Var, -Score, na.rm = T), y = Score,
+         aes(x = forcats::fct_reorder(Var, -Score, na.rm = T), y = Score,
              colour = pos_neg)) +
     geom_point(stat = "summary", fun = "mean", size = 4) +
     scale_colour_manual(breaks = c("positief", "negatief"), values = c("#CC79A7", "#56B4E9")) +
