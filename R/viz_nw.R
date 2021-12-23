@@ -3,8 +3,7 @@
 #' @param data A dataframe in pre-specified format through "prepare_data"
 #' @param output String ("poster" or "slider") indicating which labels are presented
 #' @return A ggplot-object ('circle' visualisation)
-#' @import ggplot2 dplyr
-#' @importFrom tidyr gather
+#' @import ggplot2 dplyr tidyr
 #' @export
 viz_nw <- function(data, output = "poster") {
   # Vector with variable names of negative emotions
@@ -21,7 +20,7 @@ viz_nw <- function(data, output = "poster") {
     select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_77a", "csp_dna_78a","csp_dna_fase", "dayno", "pertwee",
                     positief, negatief))) %>%
-    tidyr::gather(all_of(c(positief, negatief)), key = "Var", value = "Score") %>%
+    gather(all_of(c(positief, negatief)), key = "Var", value = "Score") %>%
     mutate(pos_neg = case_when(Var %in% positief ~ "positief",
                                Var %in% negatief ~ "negatief"))
 
