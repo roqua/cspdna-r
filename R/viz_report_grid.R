@@ -71,7 +71,7 @@ viz_report_grid <- function(data, output_format = "svg") {
   data_for_plot <- data %>%
     select(Datum, all_of(grid_nms_mw), csp_dna_fase) %>%
     mutate(csp_dna_fase = factor(csp_dna_fase, levels = c(1, 2, 3, 4))) %>%
-    gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
+    dplyr::gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
     filter(!is.na(csp_dna_fase)) %>%
     group_by(csp_dna_fase, Variabele, .drop = FALSE) %>%
     # Count how often behaviour occurs in each phase

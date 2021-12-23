@@ -31,7 +31,7 @@ viz_grid <- function(data) {
 
   grid_df <- data %>%
     select(Datum, all_of(grid_nms_mw), csp_dna_fase, dayno, pertwee) %>%
-    gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
+    dplyr::gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
     mutate(var_cat = case_when(Variabele %in% c("Whatsapp","Bellen","Deurbel","Smsen","Afgezegd","Werk_school_sport") ~ "Terugtrekken",
                                Variabele %in% c("Douchen","Dag_nacht_ritme" ,"Eten","Bewogen", "Recept_Medicatie","Medicatie_ingenomen") ~ "Zorg_zelf",
                                Variabele %in% c("Snijden","Bonken_hoofd","Krabben","Krassen","Slaan_vuist","Anderen_schade","Spullen_kapot","Uitrekken_haren",

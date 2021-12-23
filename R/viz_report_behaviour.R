@@ -21,7 +21,7 @@ viz_report_behaviour <- function(data, output_format = "svg") {
     select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_77a", "csp_dna_78a","csp_dna_fase", "dayno", "pertwee",
                     positief, negatief))) %>%
-    gather(all_of(c(positief, negatief)), key = "Var", value = "Score") %>%
+    dplyr::gather(all_of(c(positief, negatief)), key = "Var", value = "Score") %>%
     mutate(pos_neg = case_when(Var %in% positief ~ "positief",
                                Var %in% negatief ~ "negatief"),
            csp_dna_fase = factor(csp_dna_fase, levels = c(1, 2, 3, 4)))

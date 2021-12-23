@@ -11,7 +11,7 @@ viz_ts <- function(data, left_right) {
   long <- data %>%
     select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_fase", "dayno", "pertwee"))) %>%
-    gather()
+    dplyr::gather()
 
   if(left_right == "left") {
     vars_neg <- c("Boos", "Lichamelijke_klachten", "Onrustig", "Spanning")
