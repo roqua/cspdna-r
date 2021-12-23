@@ -3,8 +3,7 @@
 #' @param data A dataframe in pre-specified format through "prepare_data"
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return A ggplot-object ('grid'-visualisation)
-#' @import ggplot2 dplyr
-#' @importFrom tidyr gather
+#' @import ggplot2 dplyr forcats tidyr
 #' @export
 viz_report_grid <- function(data, output_format = "svg") {
 

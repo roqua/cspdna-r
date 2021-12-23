@@ -2,7 +2,7 @@
 #'
 #' @param data A dataframe in pre-specified format through "prepare_data"
 #' @return A ggplot-object ('grid'-visualisation)
-#' @import ggplot2 dplyr tidyr
+#' @import ggplot2 dplyr tidyr forcats
 #' @export
 viz_grid <- function(data) {
 
