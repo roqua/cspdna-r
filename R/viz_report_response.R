@@ -3,6 +3,7 @@
 #' @param data A dataframe with raw data
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return An svg of visualisation
+#' @import ggplot2
 #' @export
 viz_report_response <- function(variable, output_format = "svg") {
 

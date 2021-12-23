@@ -4,6 +4,7 @@
 #' @param left_right String ("left" or "right") indicating what sets of variables to plot
 #' @return A ggplot-object (time-series visualisation)
 #' @import ggplot2 dplyr
+#' @importFrom tidyr gather
 #' @export
 viz_ts <- function(data, left_right) {
 
@@ -11,7 +12,7 @@ viz_ts <- function(data, left_right) {
   long <- data %>%
     select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_fase", "dayno", "pertwee"))) %>%
-    dplyr::gather()
+    tidyr::gather()
 
   if(left_right == "left") {
     vars_neg <- c("Boos", "Lichamelijke_klachten", "Onrustig", "Spanning")
