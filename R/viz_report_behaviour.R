@@ -3,7 +3,7 @@
 #' @param data A dataframe with raw data
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return An svg of visualisation
-#' @import ggplot2 dplyr
+#' @import ggplot2 dplyr gather
 #' @importFrom tidyr gather
 #' @export
 viz_report_behaviour <- function(data, output_format = "svg") {
