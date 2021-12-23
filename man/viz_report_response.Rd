@@ -4,9 +4,11 @@
 \alias{viz_report_response}
 \title{Creates first visualisation for feedback-report (response-rate)}
 \usage{
-viz_report_response(variable)
+viz_report_response(variable, output_format = "svg")
 }
 \arguments{
+\item{output_format}{String ("svg" or "ggplot") defining whether output should be ggplot or svg}
+
 \item{data}{A dataframe with raw data}
 }
 \value{

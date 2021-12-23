@@ -7,7 +7,7 @@
 prepare_data(data)
 }
 \arguments{
-\item{data}{A dataframe in pre-specified format (414 variables)}
+\item{data}{A dataframe in pre-specified format (429 variables)}
 }
 \value{
 A clean dataframe that can be used for visualization

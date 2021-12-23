@@ -2,16 +2,18 @@
 % Please edit documentation in R/viz_report_grid.R
 \name{viz_report_grid}
 \alias{viz_report_grid}
-\title{Creates first visualisation for feedback-report (response-rate)}
+\title{Creates grid visualisation for feedback-report}
 \usage{
-viz_report_grid(variable)
+viz_report_grid(data, output_format = "svg")
 }
 \arguments{
-\item{data}{A dataframe with raw data}
+\item{data}{A dataframe in pre-specified format through "prepare_data"}
+
+\item{output_format}{String ("svg" or "ggplot") defining whether output should be ggplot or svg}
 }
 \value{
-An svg of visualisation
+A ggplot-object ('grid'-visualisation)
 }
 \description{
-Creates first visualisation for feedback-report (response-rate)
+Creates grid visualisation for feedback-report
 }

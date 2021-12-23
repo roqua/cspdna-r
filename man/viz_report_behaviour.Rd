@@ -2,16 +2,18 @@
 % Please edit documentation in R/viz_report_behaviour.R
 \name{viz_report_behaviour}
 \alias{viz_report_behaviour}
-\title{Creates first visualisation for feedback-report (response-rate)}
+\title{Creates average behaviour per phase for feedback-report}
 \usage{
-viz_report_behaviour(variable)
+viz_report_behaviour(data, output_format = "svg")
 }
 \arguments{
 \item{data}{A dataframe with raw data}
+
+\item{output_format}{String ("svg" or "ggplot") defining whether output should be ggplot or svg}
 }
 \value{
 An svg of visualisation
 }
 \description{
-Creates first visualisation for feedback-report (response-rate)
+Creates average behaviour per phase for feedback-report
 }

@@ -4,10 +4,12 @@
 \alias{viz_report_alone}
 \title{Creates first visualisation for feedback-report (alone by phase)}
 \usage{
-viz_report_alone(data)
+viz_report_alone(data, output_format = "svg")
 }
 \arguments{
 \item{data}{A dataframe in pre-specified format through "prepare_data"}
+
+\item{output_format}{String ("svg" or "ggplot") defining whether output should be ggplot or svg}
 }
 \value{
 An svg of visualisation
