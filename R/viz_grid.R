@@ -28,10 +28,13 @@ viz_grid <- function(data) {
                    "Spierpijn", "Tintelingen", "Zweten", "Veel_slapen", "Weinig_slapen",
                    "Nachtmerries")
 
-
+  # This creates a "long" rather than "wide" dataset, necessary for visualisation
   grid_df <- data %>%
+    # Select variables
     select(Datum, all_of(grid_nms_mw), csp_dna_fase, dayno, pertwee) %>%
+    # From wide to long dataformat
     gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
+    # Create new variables
     mutate(var_cat = case_when(Variabele %in% c("Whatsapp","Bellen","Deurbel","Smsen","Afgezegd","Werk_school_sport") ~ "Terugtrekken",
                                Variabele %in% c("Douchen","Dag_nacht_ritme" ,"Eten","Bewogen", "Recept_Medicatie","Medicatie_ingenomen") ~ "Zorg_zelf",
                                Variabele %in% c("Snijden","Bonken_hoofd","Krabben","Krassen","Slaan_vuist","Anderen_schade","Spullen_kapot","Uitrekken_haren",
@@ -55,6 +58,7 @@ viz_grid <- function(data) {
            var_cat = fct_inorder(var_cat),
            Var2 = fct_inorder(Variabele),
            Score = as.numeric(Score)) %>%
+    # Remove missing values for variable clr
     filter(!is.na(clr)) -> grid_df
 
   # Creating order in factor

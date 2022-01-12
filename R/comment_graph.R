@@ -2,12 +2,13 @@
 #'
 #' @param input A string.
 #' @return A string of input potentially with linebreaks
+#' @import stringr
 #' @export
 comment_graph <- function(input) {
   if(is.null(input) | is.na(input)) {
     return(NA)
   } else {
-    comm_len <- str_length(input)
+    comm_len <- stringr::str_length(input)
     max_len <- 40
     if(comm_len <= max_len) {
       return(input)
@@ -18,7 +19,7 @@ comment_graph <- function(input) {
       for(i in 1:(no_lines-1)) {
         extra_chars <- (i-1) * 2 # Compensate for adding "\n"
         index_char <- (i * no_chars_line) + extra_chars
-        str_sub(output, index_char, index_char - 1) <- "\n"
+        stringr::str_sub(output, index_char, index_char - 1) <- "\n"
       }
       return(output)
     }

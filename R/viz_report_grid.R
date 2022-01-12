@@ -3,10 +3,16 @@
 #' @param data A dataframe in pre-specified format through "prepare_data"
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return A ggplot-object ('grid'-visualisation)
-#' @import ggplot2 dplyr forcats tidyr
+#' @import ggplot2 dplyr forcats svglite tidyr
 #' @export
 viz_report_grid <- function(data, output_format = "svg") {
 
+  if( is.character(data) ) { 
+    return( list(error = data) )
+  } else if( !is.data.frame(data) ) {
+    return( list(error = "Input not a dataframe"))
+  }
+  
   # New names of all variables in grid
   grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
                    "Douchen", "Dag_nacht_ritme", "Eten", "Bewogen", "Recept_Medicatie",
@@ -112,8 +118,13 @@ viz_report_grid <- function(data, output_format = "svg") {
   if(output_format == "ggplot") {
     grid.draw(g)
   } else {
-    svg(file = "viz_report_grid.svg", height = 7.5, width = 5)
-    grid.draw(g)
-    dev.off()
+    # svg(file = "viz_report_grid.svg", height = 7.5, width = 5)
+    # grid.draw(g)
+    # dev.off()
+    viz_string <- svglite::svgstring(fix_text_size = FALSE, standalone = FALSE, 
+                                     height = 7.5, width = 5)
+    plot(g)
+    invisible(dev.off())
+    list(svg = as.scalar2(viz_string())) 
   }
 }

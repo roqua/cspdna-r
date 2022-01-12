@@ -9,4 +9,4 @@ viz_zoom <- function(data_zoom) {
                 xmax = max(data_zoom$Datum),
                 ymin = -Inf, ymax = Inf, alpha = .2, fill = "blue") )
 
-  }
+}

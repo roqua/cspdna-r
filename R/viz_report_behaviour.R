@@ -3,10 +3,16 @@
 #' @param data A dataframe with raw data
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return An svg of visualisation
-#' @import forcats ggplot2 dplyr tidyr
+#' @import dplyr forcats ggplot2 tidyr
 #' @export
 viz_report_behaviour <- function(data, output_format = "svg") {
 
+  if( is.character(data) ) { 
+    return( list(error = data) )
+  } else if( !is.data.frame(data) ) {
+    return( list(error = "Input not a dataframe"))
+  }
+  
   # Vector with variable names of negative emotions
   negatief <- c("Bedroefd", "Boos", "Bang", "Energie", "Spanning", "Zelfbeeld",
                 "Terugtrekken", "Destructief", "Suicidaliteit", "Onrustig", "Bijzondere_ervaringen",
@@ -70,9 +76,14 @@ viz_report_behaviour <- function(data, output_format = "svg") {
   if(output_format == "ggplot") {
     grid.draw(g)
   } else {
-    svg(file = "viz_report_behaviour.svg", height = 7.5, width = 5)
-    grid.draw(g)
-    dev.off()
+    # svg(file = "viz_report_behaviour.svg", height = 7.5, width = 5)
+    # grid.draw(g)
+    # dev.off()
+    viz_string <- svglite::svgstring(fix_text_size = FALSE, standalone = FALSE, 
+                                     height = 7.5, width = 5)
+    plot(g)
+    invisible(dev.off())
+    list(svg = as.scalar2(viz_string())) 
   }
 
 }

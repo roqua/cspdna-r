@@ -17,14 +17,17 @@ viz_nw <- function(data, output = "poster") {
 
   # Create long dataframe
   long <- data %>%
+    # Select variables
     select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_77a", "csp_dna_78a","csp_dna_fase", "dayno", "pertwee",
                     positief, negatief))) %>%
+    # From wide to long
     gather(all_of(c(positief, negatief)), key = "Var", value = "Score") %>%
+    # Create new variable
     mutate(pos_neg = case_when(Var %in% positief ~ "positief",
                                Var %in% negatief ~ "negatief"))
 
-  #vars_groups = c(rep("#CC79A7", length(negatief)), rep("#56B4E9", length(positief))),
+  # Vector with variable names
   vars_meas <- c(negatief, positief)
 
   # Create dataframe with layout of nodes in a circle
@@ -50,7 +53,7 @@ viz_nw <- function(data, output = "poster") {
   # Base plot
   plot <- ggplot(long,
                  aes_string(x = "x", y = "y")) +
-    geom_point(size = 10, colour = "lightgrey") +
+    geom_point(size = 10, colour = "lightgrey", na.rm = TRUE) +
     scale_x_continuous(expand = c(0.20, 0)) +
     scale_y_continuous(expand = c(0.20, 0)) +
     coord_fixed() +
@@ -69,7 +72,7 @@ viz_nw <- function(data, output = "poster") {
 
   # Add coloured circles depending on score
   plot <- plot +
-    geom_point(aes_string(size = "Score", colour = "pos_neg")) +
+    geom_point(aes_string(size = "Score", colour = "pos_neg"), na.rm = TRUE) +
     scale_size_area(max_size = 10) +
     scale_colour_manual(values = c("#CC79A7", "#56B4E9"))
 

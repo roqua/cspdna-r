@@ -24,4 +24,7 @@ Depends:
     forcats,
     lubridate,
     grid,
-    purrr
+    purrr,
+    stringr,
+    svglite
+    

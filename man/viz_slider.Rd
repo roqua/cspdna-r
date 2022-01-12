@@ -14,7 +14,7 @@ viz_slider(data, height = 18.3, width = 36.8)
 \item{width}{width (dimension) of image in cm}
 }
 \value{
-Mulitple SVGs to be used in slider
+Multiple SVGs in string-format in list to be used in slider
 }
 \description{
 Create images for slides

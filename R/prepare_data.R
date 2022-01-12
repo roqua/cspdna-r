@@ -8,8 +8,13 @@
 prepare_data <- function(data) {
 
   # If dataset does not have right number of variables, then stop
+  if( !is.data.frame(data) ) {
+    return("Data is not a dataset")
+  }
+  
+  # If dataset does not have right number of variables, then stop
   if(length(names(data)) != 429 ) {
-    stop("Dataset does not have right number of variables (429)")
+    return("Dataset does not have right number of variables (429)")
   }
   
   should_include <- c("roqua_id", "patient_id", "gender", "birth_year", 
@@ -131,13 +136,17 @@ prepare_data <- function(data) {
 
   # If dataset does not have all pre-specified variables then stop
   if(!all(names(data) %in% should_include)) {
-    stop("Dataset does not have prespecified variable list")
+    return("Dataset does not have prespecified variable list")
   }
   # If dataset has many completely missing questionnaires (>90%), then stop
   if( sum(is.na(data$csp_dna_non_response)) / nrow(data) < 0.10 ) {
-    stop("Too many non-responses")
+    return("Too many non-responses")
   }
-
+  # If dataset has fewer than 20 rows, then stop
+  if( nrow(data) < 20 ) {
+    return("Dataset has fewer than 20 rows")
+  }
+  
 
   # Vector with variable names of variables in circle-figure
   bedroefd = c("csp_dna_1", "csp_dna_2", "csp_dna_3", "csp_dna_4", "csp_dna_5",
@@ -207,7 +216,7 @@ prepare_data <- function(data) {
 
   # If dataset has many missings on particular items (>50%), then stop
   if( (sum(is.nan(data$Bedroefd)) / nrow(data)) > 0.50  ) {
-    stop("Too many non-responses on questions on bedroefd")
+    return("Too many non-responses on questions on bedroefd")
   }
 
 
@@ -352,7 +361,8 @@ prepare_data <- function(data) {
     rename_at(vars(all_of(grid_nms)), ~ grid_nms_mw) %>%
     mutate_at(vars(all_of(grid_nms_mw)), as.numeric) %>%
     # Select only relevant variables
-    select(all_of(c("Datum", circle_vars_nms, grid_nms_mw,
+    select(all_of(c("Datum", "csp_dna_non_response", 
+                    circle_vars_nms, grid_nms_mw,
                     "csp_dna_55a", "csp_dna_55_a0", "csp_dna_56a",
                     "csp_dna_57a", "csp_dna_77a", "csp_dna_78a",
                     # Added sleep variables
@@ -361,7 +371,7 @@ prepare_data <- function(data) {
 
   # Create interval variables
   data$dayno <- time_count(data[["Datum"]], unit = "day")
-  data$pertwee <- (data[["dayno"]] )  %/% 2
+  data$pertwee <- (data[["dayno"]] ) %/% 2
 
   return(data)
 }

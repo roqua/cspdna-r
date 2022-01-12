@@ -4,11 +4,17 @@
 #' @param height height (dimension) of poster in XX
 #' @param width width (dimension) of poster in XX
 #' @return An svg of poster
-#' @import patchwork grid
+#' @import patchwork grid svglite
 #' @importFrom dplyr filter
 #' @export
 viz_poster <- function(data, height = 60, width = 35) {
 
+  if( is.character(data) ) { 
+    return( list(error = data) )
+  } else if( !is.data.frame(data) ) {
+    return( list(error = "Input not a dataframe"))
+  }
+  
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]
  # data$interval_esm <-  data[["pertwee"]]
@@ -16,8 +22,11 @@ viz_poster <- function(data, height = 60, width = 35) {
   ts1 <- viz_ts(data, left_right = "left")
   ts2 <- viz_ts(data, left_right = "right")
 
-  svg(file = paste0("poster_", height,"x", width,".svg"), height = height, width = width)
+  #svg(file = paste0("poster_", height,"x", width,".svg"), height = height, width = width)
 
+  viz_string <- svglite::svgstring(fix_text_size = FALSE, standalone = FALSE, 
+                                   height = 2.5, width = 5)
+  
   pushViewport(viewport(layout = grid.layout(ceiling(length(no_fig)/2), 2)))
   vplayout <- function(x, y) viewport(layout.pos.row = x,
                                       layout.pos.col = y)
@@ -36,17 +45,19 @@ viz_poster <- function(data, height = 60, width = 35) {
 
     if((j %% 2) == 0) { # if number is even
       col = 2
-      print(combined, vp = vplayout(row, col))
+      plot(combined, vp = vplayout(row, col))
       row = row + 1
       col = 1
       j = j + 1
     } else if((j %% 2) != 0) { # if number is odd
       col = 1
-      print(combined, vp = vplayout(row, col))
+      plot(combined, vp = vplayout(row, col))
       col = 2
       j = j + 1
     }
   }
-  dev.off()
+  #dev.off()
+  invisible(dev.off())
+  list(svg = as.scalar2(viz_string())) 
 
 }
