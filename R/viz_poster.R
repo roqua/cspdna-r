@@ -58,6 +58,8 @@ viz_poster <- function(data, height = 60, width = 35) {
   }
   #dev.off()
   invisible(dev.off())
-  list(svg = as.scalar2(viz_string())) 
+  # as.scalar function does not work
+  # list(svg = as.scalar2(viz_string())) 
+  list(svg = (viz_string())) 
 
 }

@@ -41,8 +41,9 @@ viz_slider <- function(data, height = 18.3, width = 36.8) {
     invisible(dev.off())
     
     # Add svg string to list    
-    slider_list[[paste0("svg_slider_", i)]] <- as.scalar2(viz_string())
-
+    # as.scalar function does not work
+    # slider_list[[paste0("svg_slider_", i)]] <- as.scalar2(viz_string())
+    slider_list[[paste0("svg_slider_", i)]] <- (viz_string())
   }
   return(slider_list)
 }

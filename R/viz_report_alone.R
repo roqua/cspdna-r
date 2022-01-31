@@ -49,9 +49,10 @@ viz_report_alone <- function(data, output_format = "svg") {
 
   g <- ggplot(d, aes(x = csp_dna_55_a0, y = perc, fill = fase)) +
     geom_bar(position = "stack", stat = "identity") +
-    scale_x_continuous(breaks = c(0, 1), 
-                       labels = c(filter(lbls_alone, csp_dna_55_a0 == 0)$lbl, 
-                                  filter(lbls_alone, csp_dna_55_a0 == 1)$lbl)) +
+    scale_x_continuous(
+      breaks = lbls_alone$csp_dna_55_a0, 
+      labels = lbls_alone$lbl
+    ) +
     scale_fill_manual(breaks = factor(c(1, 2, 3, 4)),
                       labels = rev(lbls_fase),
                       values = c("1" = "green3", "2" = "yellow2",
@@ -77,7 +78,9 @@ viz_report_alone <- function(data, output_format = "svg") {
                                      height = 2.5, width = 5)
     plot(g)
     invisible(dev.off())
-    list(svg = as.scalar2(viz_string())) 
+    # as.scalar function does not work
+    # list(svg = as.scalar2(viz_string())) 
+    list(svg = (viz_string())) 
   }
   
 }
