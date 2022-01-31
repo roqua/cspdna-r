@@ -3,6 +3,8 @@
 export(JSON_to_DF)
 export(as.scalar2)
 export(comment_graph)
+export(gettestfilepath)
+export(opencpu_like_parse_json)
 export(prepare_data)
 export(time_count)
 export(viz_grid)
