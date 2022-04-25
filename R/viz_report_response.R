@@ -4,7 +4,6 @@
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return An svg string of visualisation
 #' @import ggplot2 svglite
-#' @export
 viz_report_response <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
@@ -39,15 +38,13 @@ viz_report_response <- function(data, output_format = "svg") {
     # plot(g)
     # dev.off() 
     # # list(svg = as.scalar2())
-    viz_string <- svglite::svgstring(fix_text_size = FALSE, standalone = FALSE, 
-                                     height = 1.5, width = 5)
+    viz_string <- svglite::svgstring(height = 1.5, width = 5)
     plot(g)
     invisible(dev.off())
     # as.scalar function does not work
     # list(svg = as.scalar2(viz_string())) 
     #list(svg = (viz_string())) 
     list(svgs = list(response = as.scalar2(as.character(viz_string()))))
-    
   }
   
 }

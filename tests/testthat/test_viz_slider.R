@@ -20,17 +20,17 @@ test_that("Correct input for viz_slider returns an svg", {
   result = viz_slider(prepare_data(JSON_to_DF(data$answers)));
   
   # # Iterate over several slider images
-  for( i in names(result$svgs$slider) ) {
+  for( i in names(result$svgs) ) {
     expect_match(
-      result$svgs$slider[[i]],
+      result$svgs[[i]],
       "<svg"
     )
   }
 
   if(Sys.getenv("CI_COMMIT_SHA") == '') {
-    for( i in names(result$svgs$slider) ) {
+    for( i in names(result$svgs) ) {
       filename <- paste0("../../svgs/", i , ".svg")
-      write(result$svgs$slider[[i]], file = filename, append = FALSE, ncolumns = 1)
+      write(result$svgs[[i]], file = filename, append = FALSE, ncolumns = 1)
     }
   }
 })

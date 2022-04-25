@@ -4,7 +4,6 @@
 #' @param output_format String ("svg" or "ggplot") defining whether output should be ggplot or svg
 #' @return A ggplot-object ('grid'-visualisation)
 #' @import ggplot2 dplyr forcats svglite tidyr
-#' @export
 viz_report_grid <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
@@ -121,8 +120,7 @@ viz_report_grid <- function(data, output_format = "svg") {
     # svg(file = "viz_report_grid.svg", height = 7.5, width = 5)
     # grid.draw(g)
     # dev.off()
-    viz_string <- svglite::svgstring(fix_text_size = FALSE, standalone = FALSE, 
-                                     height = 7.5, width = 5)
+    viz_string <- svglite::svgstring(height = 7.5, width = 5)
     plot(g)
     invisible(dev.off())
     # as.scalar function does not work

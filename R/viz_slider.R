@@ -40,7 +40,7 @@ viz_slider <- function(data, height = 18.3, width = 36.8) {
     #slider_list[[paste0("slider_", i)]] <- combined
 
     # Create string of svg
-    viz_string <- svglite::svgstring(fix_text_size = FALSE, standalone = FALSE,
+    viz_string <- svglite::svgstring(fix_text_size = FALSE,
                                      width = width, height = height)
     suppressWarnings( plot(combined) )
     invisible(dev.off())
@@ -51,5 +51,5 @@ viz_slider <- function(data, height = 18.3, width = 36.8) {
     slider_list[[paste0("svg_slider_", i)]] <- as.scalar2(as.character(viz_string()))
   }
   #return(slider_list)
-  return( list(svgs = list(slider = slider_list)) )
+  return(list(svgs = slider_list))
 }
