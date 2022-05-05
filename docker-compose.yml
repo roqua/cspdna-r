@@ -26,6 +26,8 @@ services:
       target: builder
     image: cspdna-r:devsetup
     command: R
+    environment:
+      CI_COMMIT_SHA: $CI_COMMIT_SHA
     volumes:
       # we map individual dirs, because Henk failed to make packrat install in /packrat.
       # that would be a nicer solution.
