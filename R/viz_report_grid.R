@@ -96,7 +96,7 @@ viz_report_grid <- function(data, output_format = "svg") {
     scale_fill_identity() +
     facet_grid(.~csp_dna_fase, scales = "free_x", labeller = to_string) +
     theme_linedraw() +
-    labs(y = "%", title = "Frequentieverdeling voor gedragingen per 'fase'", x = NULL) +
+    labs(y = "%", title = "Frequentieverdeling gedragingen per 'fase'", x = NULL) +
     theme(panel.grid.minor = element_blank(),
           panel.grid.major.y = element_blank(),
           axis.text.x = element_text(size = 12),
@@ -120,7 +120,7 @@ viz_report_grid <- function(data, output_format = "svg") {
     # svg(file = "viz_report_grid.svg", height = 7.5, width = 5)
     # grid.draw(g)
     # dev.off()
-    viz_string <- svglite::svgstring(height = 7.5, width = 5)
+    viz_string <- svglite::svgstring(height = 9, width = 5)
     plot(g)
     invisible(dev.off())
     # as.scalar function does not work

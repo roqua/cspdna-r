@@ -73,7 +73,7 @@ viz_report_alone <- function(data, output_format = "svg") {
   } else {
     # svg(file = "viz_report_alone.svg", height = 2.5, width = 5)
     # print(g)
-    # dev.off() 
+    # dev.off()
     viz_string <- svglite::svgstring(height = 2.5, width = 5)
     plot(g)
     invisible(dev.off())
