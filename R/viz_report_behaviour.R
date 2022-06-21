@@ -51,14 +51,18 @@ viz_report_behaviour <- function(data, output_format = "svg") {
     geom_point(stat = "summary", fun = "mean", size = 4) +
     scale_colour_manual(breaks = c("positief", "negatief"), values = c("#CC79A7", "#56B4E9")) +
     guides(colour = "none") +
-    scale_y_continuous(limits = c(0, 100), guide = guide_axis(n.dodge = 3)) +
+    scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0,0)
+                       #, guide = guide_axis(n.dodge = 3)
+                       ) +
     facet_grid(.~csp_dna_fase, labeller = to_string, drop = FALSE) +
     theme_linedraw() +
     labs(y = "gemiddelde score", title = "Gemiddelde score per gedraging per 'fase'", x = NULL) +
     theme(panel.grid.minor = element_blank(),
-          panel.grid.major.y = element_blank(),
-          axis.text.x = element_text(size = 12),
-          axis.text.y = element_text(size = 8)) +
+          #panel.grid.major = element_blank(),
+          plot.title = element_text(size = 10),
+          axis.text = element_text(size = 6),
+          axis.title = element_text(size = 6),
+          plot.margin = unit(c(0, 2.5, 0, 0), "cm") ) + # t r b l 
     coord_flip() -> grid_gg # Store as ggplot object
   
   # This "hack" is needed to give facets different colours
@@ -78,7 +82,7 @@ viz_report_behaviour <- function(data, output_format = "svg") {
     # svg(file = "viz_report_behaviour.svg", height = 7.5, width = 5)
     # grid.draw(g)
     # dev.off()
-    viz_string <- svglite::svgstring(height = 7.5, width = 5)
+    viz_string <- svglite::svgstring(height = 4, width = 5)
     plot(g)
     invisible(dev.off())
     # as.scalar function does not work

@@ -61,9 +61,9 @@ viz_report_alone <- function(data, output_format = "svg") {
     theme(
       legend.position = "top",
       panel.grid = element_blank(),
-      axis.title = element_text(size = 18),
-      axis.text = element_text(size = 16),
-      plot.margin = margin(r = 50)
+      axis.title = element_text(size = 10),
+      axis.text = element_text(size = 6),
+      plot.margin = unit(c(0, 2.5, 0, 0), "cm")  # t r b l 
     ) +
     coord_flip()
   
@@ -74,7 +74,7 @@ viz_report_alone <- function(data, output_format = "svg") {
     # svg(file = "viz_report_alone.svg", height = 2.5, width = 5)
     # print(g)
     # dev.off()
-    viz_string <- svglite::svgstring(height = 2.5, width = 5)
+    viz_string <- svglite::svgstring(height = 2, width = 5)
     plot(g)
     invisible(dev.off())
     # as.scalar function does not work

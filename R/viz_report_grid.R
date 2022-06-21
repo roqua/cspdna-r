@@ -76,7 +76,7 @@ viz_report_grid <- function(data, output_format = "svg") {
   data_for_plot <- data %>%
     select(Datum, all_of(grid_nms_mw), csp_dna_fase) %>%
     mutate(csp_dna_fase = factor(csp_dna_fase, levels = c(1, 2, 3, 4))) %>%
-    tidyr::gather(all_of(grid_nms_mw), key = "Variabele", value = "Score") %>%
+    tidyr::gather(all_of(grid_nms_mw), key = "Variabele", value = "Score", factor_key = TRUE) %>%
     filter(!is.na(csp_dna_fase)) %>%
     group_by(csp_dna_fase, Variabele, .drop = FALSE) %>%
     # Count how often behaviour occurs in each phase
@@ -84,23 +84,30 @@ viz_report_grid <- function(data, output_format = "svg") {
     # Add overall phase counts
     left_join(n_fase_grid, by = "csp_dna_fase") %>%
     # Create % behaviour in phase
-    mutate(prop = 100 * behaviour_sum / n_fase) %>%
+    mutate(prop = case_when(
+      n_fase == 0 ~ 0, 
+      n_fase > 0 ~ 100 * behaviour_sum / n_fase) ) %>%
     # Add colours to behaviours
     mutate(clr = case_when(Variabele %in% neg ~ "#CC79A7",
                            Variabele %in% pos ~ "#56B4E9")) 
-    
+
   # Create ggplot
-  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop), y = prop)) +
+  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), y = prop)) +
     geom_bar(stat = "identity", aes(fill = clr)) +
-    scale_y_continuous(limits = c(0, 100), guide = guide_axis(n.dodge = 3)) +
+    scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0,0)
+                       #guide = guide_axis(n.dodge = 3)
+                       ) +
     scale_fill_identity() +
     facet_grid(.~csp_dna_fase, scales = "free_x", labeller = to_string) +
     theme_linedraw() +
     labs(y = "%", title = "Frequentieverdeling gedragingen per 'fase'", x = NULL) +
     theme(panel.grid.minor = element_blank(),
-          panel.grid.major.y = element_blank(),
-          axis.text.x = element_text(size = 12),
-          axis.text.y = element_text(size = 8)) +
+          #panel.grid.major.y = element_blank(),
+          plot.title = element_text(size = 10),
+          axis.text = element_text(size = 6),
+          axis.title = element_text(size = 6),
+          plot.margin = unit(c(0, 2.5, 0, 0), "cm")
+          ) +
     coord_flip() -> grid_gg # Store as ggplot object
 
   # This "hack" is needed to give facets different colours
