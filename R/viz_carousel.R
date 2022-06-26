@@ -5,8 +5,7 @@
 #' @param width width (dimension) of image in cm
 #' @return Multiple SVGs in string-format in list to be used in slider
 #' @import patchwork ggplot2 svglite
-#' @export
-viz_slider <- function(data, height = 18.3, width = 36.8) {
+viz_carousel <- function(data, height = 18.3, width = 36.8) {
 
   if( is.character(data) ) { 
     return( list(error = data) )
@@ -51,7 +50,7 @@ viz_slider <- function(data, height = 18.3, width = 36.8) {
     # Add svg string to list    
     # as.scalar function does not work
     # slider_list[[paste0("svg_slider_", i)]] <- as.scalar2(viz_string())
-    slider_list[[paste0("svg_slider_", i)]] <- as.scalar2(as.character(viz_string()))
+    slider_list[[paste0("carousel_", i)]] <- as.scalar2(as.character(viz_string()))
   }
   #return(slider_list)
   return(list(svgs = slider_list))

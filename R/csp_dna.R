@@ -12,7 +12,7 @@ report <- function(answers) {
   data <- prepare_data(JSON_to_DF(answers))
   errors <- c()
   svgs <- list()
-  for(graph in c("viz_report_alone", "viz_report_behaviour", "viz_report_grid", "viz_report_response")) {
+  for(graph in c("viz_report_alone", "viz_report_behaviour", "viz_report_grid", "viz_report_response",  "viz_carousel")) {
     res <- do.call(graph, list(data = data))
     errors = c(errors, res$errors)
     svgs = c(svgs, res$svgs)
