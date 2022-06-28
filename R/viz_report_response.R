@@ -23,12 +23,13 @@ viz_report_response <- function(data, output_format = "svg") {
              stat = "identity", fill = "#4F71BE", colour = "darkgrey") +
     geom_bar(stat = "identity", fill = "#DF8344") +
     geom_text(aes(label = paste0(round(resp), "%")), 
-                  hjust = 1, colour = "white", size = 8) +
+                  hjust = 1, colour = "white", size = 6) +
     theme_void() +
     coord_flip() +
     labs(title = title) +
     theme(
-      plot.title = element_text(hjust = 0.5, size = 18)
+      plot.title = element_text(hjust = 0.5, size = 10),
+      plot.margin = unit(c(0, 2.5, 0, 2.5), "cm")  # t r b l 
     )
 
   if(output_format == "ggplot") {
@@ -38,7 +39,7 @@ viz_report_response <- function(data, output_format = "svg") {
     # plot(g)
     # dev.off() 
     # # list(svg = as.scalar2())
-    viz_string <- svglite::svgstring(height = 1.5, width = 5)
+    viz_string <- svglite::svgstring(height = 0.5, width = 5 )
     plot(g)
     invisible(dev.off())
     # as.scalar function does not work
