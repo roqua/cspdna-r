@@ -6,7 +6,7 @@
 #' @return An svg of poster
 #' @import patchwork grid svglite
 #' @importFrom dplyr filter
-viz_poster <- function(data, height = 60, width = 35) {
+viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (42 / 2.54)) {
 
   if( is.character(data) ) { 
     return( list(errors = data) )
@@ -16,12 +16,9 @@ viz_poster <- function(data, height = 60, width = 35) {
   
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]
- # data$interval_esm <-  data[["pertwee"]]
-
+ 
   ts1 <- viz_ts(data, left_right = "left")
   ts2 <- viz_ts(data, left_right = "right")
-
-  #svg(file = paste0("poster_", height,"x", width,".svg"), height = height, width = width)
 
   viz_string <- svglite::svgstring(fix_text_size = FALSE, height = height, width = width)
   
@@ -54,9 +51,8 @@ viz_poster <- function(data, height = 60, width = 35) {
       j = j + 1
     }
   }
-  #dev.off()
   invisible(dev.off())
-  # as.scalar function does not work
+  #write(as.character(viz_string()), file = "poster_example_new.svg", append = FALSE, ncolumns = 1)
   # list(svg = as.scalar2(viz_string())) 
   list(svgs = list(poster = as.scalar2(as.character(viz_string()))))
 }
