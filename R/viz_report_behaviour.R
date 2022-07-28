@@ -49,7 +49,7 @@ viz_report_behaviour <- function(data, output_format = "svg") {
          aes(x = forcats::fct_reorder(Var, -Score, na.rm = T), y = Score,
              colour = pos_neg)) +
     geom_point(stat = "summary", fun = "mean", size = 4) +
-    scale_colour_manual(breaks = c("positief", "negatief"), values = c("#CC79A7", "#56B4E9")) +
+    scale_colour_manual(breaks = c("positief", "negatief"), values = c("#56B4E9", "#CC79A7")) +
     guides(colour = "none") +
     scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0,0)
                        #, guide = guide_axis(n.dodge = 3)
