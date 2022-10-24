@@ -106,13 +106,14 @@ viz_report_grid <- function(data, output_format = "svg") {
   # Create ggplot
   ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), y = prop)) +
     geom_bar(stat = "identity", aes(fill = clr)) +
-    scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0,0)
+    scale_y_continuous(limits = c(-10, 110), breaks = c(0, 50, 100), 
+                       labels = c("0%", "50%", "100%"), expand = c(0,0)
                        #guide = guide_axis(n.dodge = 3)
                        ) +
     scale_fill_identity() +
     facet_grid(.~csp_dna_fase, scales = "free_x", labeller = to_string) +
     theme_linedraw() +
-    labs(y = "%", title = "Frequentieverdeling gedragingen per 'fase'", x = NULL) +
+    labs(y = NULL, title = "Frequentieverdeling gedragingen per 'fase'", x = NULL) +
     theme(panel.grid.minor = element_blank(),
           #panel.grid.major.y = element_blank(),
           plot.title = element_text(size = 10),

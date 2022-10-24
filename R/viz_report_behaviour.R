@@ -52,7 +52,7 @@ viz_report_behaviour <- function(data, output_format = "svg") {
     geom_point(stat = "summary", fun = "mean", size = 4) +
     scale_colour_manual(breaks = c("positief", "negatief"), values = c("#56B4E9", "#CC79A7")) +
     guides(colour = "none") +
-    scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0,0)
+    scale_y_continuous(limits = c(-10, 110), breaks = c(0, 50, 100), expand = c(0,0)
                        #, guide = guide_axis(n.dodge = 3)
                        ) +
     facet_grid(.~csp_dna_fase, labeller = to_string, drop = FALSE) +
