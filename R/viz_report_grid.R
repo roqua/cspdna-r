@@ -18,13 +18,18 @@ viz_report_grid <- function(data, output_format = "svg") {
                    "Medicatie_ingenomen", "Snijden", "Bonken_hoofd", "Krabben",
                    "Krassen", "Slaan_vuist", "Anderen_schade", "Spullen_kapot",
                    "Uitrekken_haren", "Alcohol_drugs", "Uitgeven_geld", "Gokken",
-                   "Seksueel_risicovol", "Eetbui", "Passieve_gedachtes", "Actieve_gedachtes",
+                   "Seksueel_risicovol", "Eetbui", 
+                   "Anders_destructief", # NIEUW  
+                   "Passieve_gedachtes", "Actieve_gedachtes",
                    "Afscheidsbrief", "Concreet_plan", "TV", "Muziek", "Yoga", "Wandelen",
-                   "Creatief", "Lezen", "Sporten", "Huishouden", "Spelletje", "Slapen",
+                   "Creatief", "Lezen", "Sporten", "Huishouden", "Spelletje", 
+                   "Slapen_act", # NIEUW
                    "Contact_zoeken", "Afgesproken", "Buiten", "Anders", "Nagelbijten",
                    "Ijsberen", "Mouw_trekken", "Schoonmaken", "Roken", "Praten_anders",
                    "Uitpraten_niet", "Piekeren", "Dwanghandelingen", "Contact_veel",
-                   "Alleen_niet", "Beslissingen_zelf", "Stemmen", "Schimmen", "Dissociaties",
+                   "Alleen_niet", "Beslissingen_zelf", 
+                   "Anders_onrustig", # NIEUW
+                   "Stemmen", "Schimmen", "Dissociaties",
                    "Achterdochtig", "Opdracht_krijgen", "Herbeleving", "Werken",
                    "Opleiding", "Kind_zorg", "Wassen", "Koken", "Schoonmaken_verplichting",
                    "Boodschappen", "Afspraken_nakomen", "Telefoon_onaardig", "Face_to_face_onaardig",
@@ -34,15 +39,20 @@ viz_report_grid <- function(data, output_format = "svg") {
                    "Spierpijn", "Tintelingen", "Zweten", "Veel_slapen", "Weinig_slapen",
                    "Nachtmerries")
   
+
   # Vector with variable names that get assigned colour "#CC79A7"
   neg <- c( "Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport", 
             "Snijden", "Bonken_hoofd", "Krabben", "Krassen", "Slaan_vuist", 
             "Anderen_schade", "Spullen_kapot", "Uitrekken_haren", "Alcohol_drugs", 
-            "Uitgeven_geld", "Gokken", "Seksueel_risicovol", "Eetbui", "Passieve_gedachtes", 
+            "Uitgeven_geld", "Gokken", "Seksueel_risicovol", "Eetbui", 
+            "Anders_destructief", # NIEUW  
+            "Passieve_gedachtes", 
             "Actieve_gedachtes", "Afscheidsbrief", "Concreet_plan", "Nagelbijten", 
             "Ijsberen", "Mouw_trekken", "Schoonmaken", "Roken", "Praten_anders", 
             "Uitpraten_niet", "Piekeren", "Dwanghandelingen", "Contact_veel", 
-            "Alleen_niet", "Beslissingen_zelf", "Stemmen", "Schimmen", "Dissociaties", 
+            "Alleen_niet", "Beslissingen_zelf", 
+            "Anders_onrustig", # NIEUW
+            "Stemmen", "Schimmen", "Dissociaties", 
             "Achterdochtig", "Opdracht_krijgen", "Herbeleving", "Telefoon_onaardig", 
             "Face_to_face_onaardig", "Whatsapp_onaardig", "Social_media_onaardig", 
             "Ademhalingsproblemen", "Pijn_borst", "Hartkloppingen", "Misselijkheid", 
@@ -53,7 +63,9 @@ viz_report_grid <- function(data, output_format = "svg") {
   # Vector with variable names that get assigned colour "#56B4E9"
   pos <- c("Douchen", "Dag_nacht_ritme", "Eten", "Bewogen", "Recept_Medicatie", 
            "Medicatie_ingenomen", "TV", "Muziek", "Yoga", "Wandelen", "Creatief", 
-           "Lezen", "Sporten", "Huishouden", "Spelletje", "Slapen", "Contact_zoeken", 
+           "Lezen", "Sporten", "Huishouden", "Spelletje", 
+           "Slapen_act", # NIEUW
+           "Contact_zoeken", 
            "Afgesproken", "Buiten", "Anders", "Werken", "Opleiding", "Kind_zorg", 
            "Wassen", "Koken", "Schoonmaken_verplichting", "Boodschappen", 
            "Afspraken_nakomen")

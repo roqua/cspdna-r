@@ -19,7 +19,8 @@ viz_report_behaviour <- function(data, output_format = "svg") {
   
   # Vector with variable names of positive emotions
   positief <- c("Blij", "Ondernemen", "Contact_behoefte", "Ervaren_controle",
-                "Zorg_zelf", "Activiteiten", "Verplichtingen", "Plezierig")
+                "Zorg_zelf", "Activiteiten", "Verplichtingen", "Plezierig", 
+                "Slapen") # new variable
 
   # Create long dataframe
   long <- data %>%

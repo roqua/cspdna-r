@@ -13,7 +13,7 @@ viz_nw <- function(data, output = "poster") {
 
   # Vector with variable names of positive emotions
   positief <- c("Blij", "Ondernemen", "Contact_behoefte", "Ervaren_controle",
-                "Zorg_zelf", "Activiteiten", "Verplichtingen", "Plezierig")
+                "Zorg_zelf", "Activiteiten", "Verplichtingen", "Slapen", "Plezierig")
 
   # Create long dataframe
   long <- data %>%
