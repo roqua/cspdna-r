@@ -224,6 +224,7 @@ JSON_to_DF <- function(answers) {
     csp_dna_70a_a10 = csp_dna_values$v_70a_a10, 
     csp_dna_70a_a11 = csp_dna_values$v_70a_a11, 
     csp_dna_70a_a12 = csp_dna_values$v_70a_a12, 
+    csp_dna_70a_a13 = csp_dna_values$v_70a_a13, 
     csp_dna_71a_a1 = csp_dna_values$v_71a_a1,
     csp_dna_71a_a2 = csp_dna_values$v_71a_a2, 
     csp_dna_71a_a3 = csp_dna_values$v_71a_a3,

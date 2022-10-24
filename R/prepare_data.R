@@ -13,8 +13,8 @@ prepare_data <- function(data) {
   }
   
   # If dataset does not have right number of variables, then stop
-  if(length(names(data)) != 265 ) {
-    return("Dataset does not have right number of variables (265)")
+  if(length(names(data)) != 266 ) {
+    return("Dataset does not have right number of variables (266)")
   }
   
   should_include <- c(
@@ -66,7 +66,9 @@ prepare_data <- function(data) {
     "csp_dna_69a_a12", "csp_dna_69a_a13", "csp_dna_69a_a14", "csp_dna_70a_a1", 
     "csp_dna_70a_a2", "csp_dna_70a_a3", "csp_dna_70a_a4", "csp_dna_70a_a5", 
     "csp_dna_70a_a6", "csp_dna_70a_a7", "csp_dna_70a_a8", "csp_dna_70a_a9", 
-    "csp_dna_70a_a10", "csp_dna_70a_a11", "csp_dna_70a_a12", "csp_dna_71a_a1", 
+    "csp_dna_70a_a10", "csp_dna_70a_a11", "csp_dna_70a_a12", 
+    "csp_dna_70a_a13", 
+    "csp_dna_71a_a1", 
     "csp_dna_71a_a2", "csp_dna_71a_a3", "csp_dna_71a_a4", "csp_dna_71a_a5", 
     "csp_dna_71a_a6", "csp_dna_72a_a1", "csp_dna_72a_a2", "csp_dna_72a_a3", 
     "csp_dna_72a_a4", "csp_dna_72a_a5", "csp_dna_72a_a6", "csp_dna_72a_a7", 
@@ -124,6 +126,7 @@ prepare_data <- function(data) {
   lichamelijke_kla = c("csp_dna_76")
   plezierig = c("csp_dna_77")
   onplezierig = c("csp_dna_78")
+  slapen = c("csp_dna_79a")
 
   # Create network variables with new names
   # Can have multiple mutally exclusive possibilities so collapse into one
@@ -135,7 +138,7 @@ prepare_data <- function(data) {
                     contact_beh, zelfbeeld, erv_cont, terugtrekken,
                     zorg_zelf, destructief, suicidaliteit, activiteiten,
                     onrustig, bijzondere_erv, verplichtingen, negatief_contact,
-                    lichamelijke_kla, plezierig, onplezierig)), as.numeric)
+                    lichamelijke_kla, plezierig, onplezierig, slapen)), as.numeric)
     ) %>%
     mutate(
       Bedroefd = rowMeans(select(., all_of(bedroefd)), na.rm = TRUE),
@@ -159,7 +162,8 @@ prepare_data <- function(data) {
       Negatief_contact = rowMeans(select(., all_of(negatief_contact)), na.rm = TRUE),
       Lichamelijke_klachten = rowMeans(select(., all_of(lichamelijke_kla)), na.rm = TRUE),
       Plezierig = rowMeans(select(., all_of(plezierig)), na.rm = TRUE),
-      Onplezierig = rowMeans(select(., all_of(onplezierig)), na.rm = TRUE)
+      Onplezierig = rowMeans(select(., all_of(onplezierig)), na.rm = TRUE),
+      Slapen = rowMeans(select(., all_of(slapen)), na.rm = TRUE)
     )
 
   # If dataset has many missings on particular items (>50%), then stop
@@ -175,7 +179,8 @@ prepare_data <- function(data) {
                        "Zorg_zelf", "Destructief", "Suicidaliteit",
                        "Activiteiten", "Onrustig", "Bijzondere_ervaringen",
                        "Verplichtingen", "Negatief_contact",
-                       "Lichamelijke_klachten", "Plezierig", "Onplezierig")
+                       "Lichamelijke_klachten", "Plezierig", "Onplezierig",
+                       "Slapen")
   
   # Long code to determine which variables were used and should be included in graphics
   # Names of variables Terugtrekken, "...a_na" not included
@@ -193,11 +198,13 @@ prepare_data <- function(data) {
   zz_vars <- paste0(zz_sel, paste0("a_a", 1:6))
   
   # Names of variables Destructief, "...a_a14a" & "...a_na" not included
-  de <- c("csp_dna_63","csp_dna_64","csp_dna_65")
+  de <- c("csp_dna_63",
+          #"csp_dna_63a_a14", # nieuwe var
+          "csp_dna_64","csp_dna_65")
   # Name of variable that is not empty
   de_sel <- de[colSums(!is.na(data[, de])) > 0]
   # Names of variables for grid
-  de_vars <- paste0(de_sel, paste0("a_a", 1:14))
+  de_vars <- paste0(de_sel, paste0("a_a", 1:14)) # should this be 15
 
   # Names of variables Suicidaliteit, "...a_na" not included
   su_vars <- c("csp_dna_66a_a1", "csp_dna_66a_a2", "csp_dna_66a_a3", "csp_dna_66a_a4")
@@ -213,7 +220,8 @@ prepare_data <- function(data) {
   on_vars <- c("csp_dna_70a_a1", "csp_dna_70a_a2", "csp_dna_70a_a3", 
                "csp_dna_70a_a4", "csp_dna_70a_a5", "csp_dna_70a_a6", 
                "csp_dna_70a_a7", "csp_dna_70a_a8", "csp_dna_70a_a9",
-               "csp_dna_70a_a10", "csp_dna_70a_a11", "csp_dna_70a_a12")
+               "csp_dna_70a_a10", "csp_dna_70a_a11", "csp_dna_70a_a12",
+               "csp_dna_70a_a13") # new addition
 
   
   # Names of variables Bijzondere / Psychiatrische ervaringen, 
@@ -256,11 +264,11 @@ prepare_data <- function(data) {
                 de_vars, # names of 14 variables on Destructief
                 su_vars, # names of 4 variables on Suicidaliteit
                 ac_vars, # names of 14 variables on Activiteiten
-                on_vars, # names of 12 variables on Onrustig / Neurotisch
+                on_vars, # names of 14 variables on Onrustig / Neurotisch
                 be_vars, # names of 6 variables on Bijzondere ervaringen
                 ve_vars, # names of 8 variables on Verplichtingen
                 nc_vars, # names of 4 variables on Negatief contact
-                lc_vars # names of 16 variables on Negatief contact
+                lc_vars # names of 16 variables on lichamelijke klachten
                 )
 
   # New names of all variables in grid
@@ -274,18 +282,22 @@ prepare_data <- function(data) {
     "Snijden", "Bonken_hoofd", "Krabben",
     "Krassen", "Slaan_vuist", "Anderen_schade", "Spullen_kapot",
     "Uitrekken_haren", "Alcohol_drugs", "Uitgeven_geld", "Gokken",
-    "Seksueel_risicovol", "Eetbui", "Destructie_Anders",
+    "Seksueel_risicovol", "Eetbui", 
+    "Anders_destructief", # NIEUW
     # New names for suicidaliteit
     "Passieve_gedachtes", "Actieve_gedachtes",
     "Afscheidsbrief", "Concreet_plan", 
     # New names for activiteiten
     "TV", "Muziek", "Yoga", "Wandelen", "Creatief", "Lezen", "Sporten", 
-    "Huishouden", "Spelletje", "Slapen", "Contact_zoeken", "Afgesproken", 
+    "Huishouden", "Spelletje", 
+    "Slapen_act", 
+    "Contact_zoeken", "Afgesproken", 
     "Buiten", "Anders", 
     # New names for onrustig
     "Nagelbijten", "Ijsberen", "Mouw_trekken", "Schoonmaken", "Roken", 
     "Praten_anders", "Uitpraten_niet", "Piekeren", "Dwanghandelingen", 
     "Contact_veel", "Alleen_niet", "Beslissingen_zelf", 
+    "Anders_onrustig", # NIEUW
     # New names for Bijzondere ervaringen
     "Stemmen", "Schimmen", "Dissociaties", "Achterdochtig", 
     "Opdracht_krijgen", "Herbeleving", 
