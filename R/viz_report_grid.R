@@ -93,6 +93,8 @@ viz_report_grid <- function(data, output_format = "svg") {
     group_by(csp_dna_fase, Variabele, .drop = FALSE) %>%
     # Count how often behaviour occurs in each phase
     summarise(behaviour_sum = sum(Score, na.rm = T)) %>%
+    group_by(Variabele, .drop = FALSE) %>%
+    mutate(n_total_beh = sum(behaviour_sum)) %>% 
     # Add overall phase counts
     left_join(n_fase_grid, by = "csp_dna_fase") %>%
     # Create % behaviour in phase
@@ -101,10 +103,16 @@ viz_report_grid <- function(data, output_format = "svg") {
       n_fase > 0 ~ 100 * behaviour_sum / n_fase) ) %>%
     # Add colours to behaviours
     mutate(clr = case_when(Variabele %in% neg ~ "#CC79A7",
-                           Variabele %in% pos ~ "#56B4E9")) 
+                           Variabele %in% pos ~ "#56B4E9")) %>% 
+    # if behaviour never occurred remove it from data
+    filter(n_total_beh != 0)
 
+  temp <<- data_for_plot
+  print(data_for_plot)
+  
   # Create ggplot
-  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), y = prop)) +
+  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), 
+                            y = prop)) +
     geom_bar(stat = "identity", aes(fill = clr)) +
     scale_y_continuous(limits = c(0, 100), breaks = c(0, 50, 100), expand = c(0,0)
                        #guide = guide_axis(n.dodge = 3)
