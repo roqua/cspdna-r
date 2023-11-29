@@ -46,10 +46,10 @@ viz_report_alone <- function(data, output_format = "svg") {
            lbl = paste0(fase, " [", perc, "%]")) %>% 
     pull(lbl)
 
-  g <- ggplot(d, aes(x = csp_dna_55_a0, y = perc, fill = fase)) +
+  g <- ggplot(d, aes(x = factor(csp_dna_55_a0), y = perc, fill = fase)) +
     geom_bar(position = "stack", stat = "identity") +
     scale_x_discrete(
-      breaks = lbls_alone$csp_dna_55_a0, 
+      breaks = lbls_alone$csp_dna_55_a0,
       labels = lbls_alone$lbl
     ) +
     scale_fill_manual(breaks = factor(c(1, 2, 3, 4)),
