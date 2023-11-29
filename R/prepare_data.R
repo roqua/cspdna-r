@@ -90,7 +90,7 @@ prepare_data <- function(data) {
   }
   # If dataset has many completely missing questionnaires (>90%), then stop
   if( sum(is.na(data$csp_dna_non_response)) / nrow(data) < 0.10 ) {
-    return("Too many non-responses")
+    return("Too many non-responses (>90%)")
   }
   # If dataset has fewer than 20 rows, then stop
   if( nrow(data) < 20 ) {
