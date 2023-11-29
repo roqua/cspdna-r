@@ -316,7 +316,7 @@ prepare_data <- function(data) {
   # Rename network variables into more sensible names
   data <- data %>%
     # Create date variables
-    mutate(Datum = as_datetime(csp_dna_open_from)) %>%
+    mutate(Datum = as_datetime(csp_dna_open_from, tz = "Europe/Amsterdam")) %>%
     # Rename grid variables and make them numeric
     rename_at(vars(all_of(grid_nms)), ~ grid_nms_mw) %>%
     mutate_at(vars(all_of(grid_nms_mw)), as.numeric) %>%
