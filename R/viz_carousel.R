@@ -8,11 +8,15 @@
 viz_carousel <- function(data, height = 18.3, width = 36.8) {
 
   if( is.character(data) ) { 
-    return( list(error = data) )
+    return( 
+      list(svgs = list(as.scalar2(data)))
+    )
   } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
+    return(
+      list(svgs = list("Input not a dataframe"))
+    )
   }
-  
+
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]
   data$interval_esm <-  data[["pertwee"]]

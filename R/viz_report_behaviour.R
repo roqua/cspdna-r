@@ -7,11 +7,15 @@
 viz_report_behaviour <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
-    return( list(error = data) )
+    return( 
+      list(svgs = list(behaviour = as.scalar2(data)))
+    )
   } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
+    return(
+      list(svgs = list(behaviour = "Input not a dataframe"))
+    )
   }
-  
+
   # Vector with variable names of negative emotions
   negatief <- c("Bedroefd", "Boos", "Bang", "Energie", "Spanning", "Zelfbeeld",
                 "Terugtrekken", "Destructief", "Suicidaliteit", "Onrustig", "Bijzondere_ervaringen",

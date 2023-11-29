@@ -9,11 +9,15 @@
 viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (42 / 2.54)) {
 
   if( is.character(data) ) { 
-    return( list(errors = data) )
+    return( 
+      list(svgs = list(poster = as.scalar2(data)))
+    )
   } else if( !is.data.frame(data) ) {
-    return( list(errors = "Input not a dataframe"))
+    return(
+      list(svgs = list(poster = "Input not a dataframe"))
+    )
   }
-  
+
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]
  

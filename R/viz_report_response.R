@@ -7,9 +7,13 @@
 viz_report_response <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
-    return( list(error = data) )
+    return( 
+      list(svgs = list(response = as.scalar2(data)))
+    )
   } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
+    return(
+      list(svgs = list(response = "Input not a dataframe"))
+    )
   }
   
   responded <- sum(is.na(data$csp_dna_non_response))

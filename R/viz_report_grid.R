@@ -7,11 +7,15 @@
 viz_report_grid <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
-    return( list(error = data) )
+    return( 
+      list(svgs = list(grid = as.scalar2(data)))
+    )
   } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
+    return(
+      list(svgs = list(grid = "Input not a dataframe"))
+    )
   }
-  
+
   # New names of all variables in grid
   grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
                    "Douchen", "Dag_nacht_ritme", "Eten", "Bewogen", "Recept_Medicatie",
@@ -107,9 +111,6 @@ viz_report_grid <- function(data, output_format = "svg") {
     # if behaviour never occurred remove it from data
     filter(n_total_beh != 0)
 
-  temp <<- data_for_plot
-  print(data_for_plot)
-  
   # Create ggplot
   ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), 
                             y = prop)) +

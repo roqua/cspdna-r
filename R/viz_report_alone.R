@@ -7,11 +7,15 @@
 viz_report_alone <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
-    return( list(error = data) )
+    return( 
+      list(svgs = list(alone = as.scalar2(data)))
+    )
   } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
+    return(
+      list(svgs = list(alone = "Input not a dataframe"))
+    )
   }
-  
+
   # This creates the dataframe for the plot
   # It contains percentages being alone per phase
   d <- data %>% 
