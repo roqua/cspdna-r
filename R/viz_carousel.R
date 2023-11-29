@@ -9,11 +9,11 @@ viz_carousel <- function(data, height = 18.3, width = 36.8) {
 
   if( is.character(data) ) { 
     return( 
-      list(svgs = list(as.scalar2(data)))
+      list(svgs = list(error_to_svg(data)))
     )
   } else if( !is.data.frame(data) ) {
     return(
-      list(svgs = list("Input not a dataframe"))
+      list(svgs = list(error_to_svg("Input not a dataframe")))
     )
   }
 

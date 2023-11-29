@@ -8,14 +8,14 @@ viz_report_grid <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
     return( 
-      list(svgs = list(grid = as.scalar2(data)))
+      list(svgs = list(grid = error_to_svg(data)))
     )
   } else if( !is.data.frame(data) ) {
     return(
-      list(svgs = list(grid = "Input not a dataframe"))
+      list(svgs = list(grid = error_to_svg("Input not a dataframe")))
     )
   }
-
+  
   # New names of all variables in grid
   grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
                    "Douchen", "Dag_nacht_ritme", "Eten", "Bewogen", "Recept_Medicatie",

@@ -8,11 +8,11 @@ viz_report_response <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
     return( 
-      list(svgs = list(response = as.scalar2(data)))
+      list(svgs = list(response = error_to_svg(data)))
     )
   } else if( !is.data.frame(data) ) {
     return(
-      list(svgs = list(response = "Input not a dataframe"))
+      list(svgs = list(response = error_to_svg("Input not a dataframe")))
     )
   }
   

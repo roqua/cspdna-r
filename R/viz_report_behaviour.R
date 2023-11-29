@@ -8,11 +8,11 @@ viz_report_behaviour <- function(data, output_format = "svg") {
 
   if( is.character(data) ) { 
     return( 
-      list(svgs = list(behaviour = as.scalar2(data)))
+      list(svgs = list(behaviour = error_to_svg(data)))
     )
   } else if( !is.data.frame(data) ) {
     return(
-      list(svgs = list(behaviour = "Input not a dataframe"))
+      list(svgs = list(behaviour = error_to_svg("Input not a dataframe")))
     )
   }
 
