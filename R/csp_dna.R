@@ -2,7 +2,13 @@
 #' @param answers {csp_dna: [{id: 1, .. }]}, see tests/testthat/jsons/answers.json
 #' @export
 poster <- function(answers) {
-  viz_poster(prepare_data(JSON_to_DF(answers)))
+  data <- prepare_data(JSON_to_DF(answers))
+  
+  if( is.character(data) ) {
+    return(list(error = data))
+  } 
+  
+  viz_poster(data)
 };
 
 #' Svg's for feedback report.
@@ -10,6 +16,11 @@ poster <- function(answers) {
 #' @export
 report <- function(answers) {
   data <- prepare_data(JSON_to_DF(answers))
+  
+  if( is.character(data) ) {
+    return(list(error = data))
+  } 
+  
   errors <- c()
   svgs <- list()
   for(graph in c("viz_report_alone", "viz_report_behaviour", "viz_report_grid", "viz_report_response",  "viz_carousel")) {
