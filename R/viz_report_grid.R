@@ -6,15 +6,16 @@
 #' @import ggplot2 dplyr forcats svglite tidyr
 viz_report_grid <- function(data, output_format = "svg") {
 
-  if( is.character(data) ) { 
-    return( 
-      list(svgs = list(grid = error_to_svg(data)))
-    )
-  } else if( !is.data.frame(data) ) {
-    return(
-      list(svgs = list(grid = error_to_svg("Input not a dataframe")))
-    )
-  }
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(grid = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(grid = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
   
   # New names of all variables in grid
   grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",

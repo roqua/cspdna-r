@@ -6,15 +6,16 @@
 #' @import dplyr forcats ggplot2 tidyr grid
 viz_report_behaviour <- function(data, output_format = "svg") {
 
-  if( is.character(data) ) { 
-    return( 
-      list(svgs = list(behaviour = error_to_svg(data)))
-    )
-  } else if( !is.data.frame(data) ) {
-    return(
-      list(svgs = list(behaviour = error_to_svg("Input not a dataframe")))
-    )
-  }
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(behaviour = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(behaviour = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
 
   # Vector with variable names of negative emotions
   negatief <- c("Bedroefd", "Boos", "Bang", "Energie", "Spanning", "Zelfbeeld",
