@@ -6,9 +6,9 @@ test_that("viz_report_alone correct output", {
   
   # error should be the same as the one prepare_data gives
   expect_identical(viz_report_alone(prepare_data(c(1, 2, 3)))[[1]], 
-                                    prepare_data(c(1, 2, 3)))
+                   "Input not a dataframe")
   expect_identical(viz_report_alone(prepare_data(patientdata[, -1]))[[1]], 
-                   prepare_data(patientdata[, -1]))
+                   "Input not a dataframe")
   
   # correct output viz_report_alone is a svg string
   # expect_identical(class(viz_report_alone(prepare_data(patientdata))[[1]])[2], 

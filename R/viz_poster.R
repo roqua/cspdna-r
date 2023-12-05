@@ -8,6 +8,8 @@
 #' @importFrom dplyr filter
 viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (42 / 2.54)) {
 
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
   # PLACE HOLDER FOR POTENTIAL ERRORS
   # if( is.character(data) ) { 
   #   return( 

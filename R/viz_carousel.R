@@ -7,6 +7,8 @@
 #' @import patchwork ggplot2 svglite
 viz_carousel <- function(data, height = 18.3, width = 36.8) {
 
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))  
+  
   # PLACE HOLDER FOR POTENTIAL ERRORS
   # if( is.character(data) ) { 
   #   return( 

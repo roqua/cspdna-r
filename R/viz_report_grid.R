@@ -6,6 +6,8 @@
 #' @import ggplot2 dplyr forcats svglite tidyr
 viz_report_grid <- function(data, output_format = "svg") {
 
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
   # PLACE HOLDER FOR POTENTIAL ERRORS
   # if( is.character(data) ) { 
   #   return( 

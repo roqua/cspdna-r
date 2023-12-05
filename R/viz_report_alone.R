@@ -6,6 +6,8 @@
 #' @import dplyr ggplot2 svglite
 viz_report_alone <- function(data, output_format = "svg") {
 
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
   # PLACE HOLDER FOR POTENTIAL ERRORS
   # if( is.character(data) ) {
   #   return(

@@ -6,6 +6,8 @@
 #' @import dplyr forcats ggplot2 tidyr grid
 viz_report_behaviour <- function(data, output_format = "svg") {
 
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
   # PLACE HOLDER FOR POTENTIAL ERRORS
   # if( is.character(data) ) { 
   #   return( 
@@ -51,8 +53,8 @@ viz_report_behaviour <- function(data, output_format = "svg") {
                              `3` = n_fase_grid$labels[3],
                              `4` = n_fase_grid$labels[4]))
   
-  ggplot(filter(long, !is.na(csp_dna_fase)),
-         aes(x = forcats::fct_reorder(Var, -Score, na.rm = T), y = Score,
+  ggplot(filter(long, !is.na(csp_dna_fase) & !is.na(Score)),
+         aes(x = forcats::fct_reorder(Var, -Score, .na_rm = T), y = Score,
              colour = pos_neg)) +
     geom_point(stat = "summary", fun = "mean", size = 4) +
     scale_colour_manual(breaks = c("positief", "negatief"), values = c("#56B4E9", "#CC79A7")) +
