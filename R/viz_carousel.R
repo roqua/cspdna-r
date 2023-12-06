@@ -7,12 +7,19 @@
 #' @import patchwork ggplot2 svglite
 viz_carousel <- function(data, height = 18.3, width = 36.8) {
 
-  if( is.character(data) ) { 
-    return( list(error = data) )
-  } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
-  }
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))  
   
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(error_to_svg("Input not a dataframe")))
+  #   )
+  # }
+
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]
   data$interval_esm <-  data[["pertwee"]]

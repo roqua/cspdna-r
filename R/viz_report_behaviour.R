@@ -6,12 +6,19 @@
 #' @import dplyr forcats ggplot2 tidyr grid
 viz_report_behaviour <- function(data, output_format = "svg") {
 
-  if( is.character(data) ) { 
-    return( list(error = data) )
-  } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
-  }
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
   
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(behaviour = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(behaviour = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
+
   # Vector with variable names of negative emotions
   negatief <- c("Bedroefd", "Boos", "Bang", "Energie", "Spanning", "Zelfbeeld",
                 "Terugtrekken", "Destructief", "Suicidaliteit", "Onrustig", "Bijzondere_ervaringen",
@@ -46,8 +53,8 @@ viz_report_behaviour <- function(data, output_format = "svg") {
                              `3` = n_fase_grid$labels[3],
                              `4` = n_fase_grid$labels[4]))
   
-  ggplot(filter(long, !is.na(csp_dna_fase)),
-         aes(x = forcats::fct_reorder(Var, -Score, na.rm = T), y = Score,
+  ggplot(filter(long, !is.na(csp_dna_fase) & !is.na(Score)),
+         aes(x = forcats::fct_reorder(Var, -Score, .na_rm = T), y = Score,
              colour = pos_neg)) +
     geom_point(stat = "summary", fun = "mean", size = 4) +
     scale_colour_manual(breaks = c("positief", "negatief"), values = c("#56B4E9", "#CC79A7")) +

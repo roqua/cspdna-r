@@ -5,12 +5,19 @@
 #' @return An svg string of visualisation
 #' @import ggplot2 svglite
 viz_report_response <- function(data, output_format = "svg") {
-
-  if( is.character(data) ) { 
-    return( list(error = data) )
-  } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
-  }
+  
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(response = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(response = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
   
   responded <- sum(is.na(data$csp_dna_non_response))
   total <- length(data$csp_dna_non_response)
