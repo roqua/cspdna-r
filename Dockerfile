@@ -8,7 +8,11 @@ RUN apt-get update && apt-get -f install -y \
   git \
   libcairo-dev \
   libcurl4-openssl-dev \
-  libxml2-dev
+  libxml2-dev \
+  libharfbuzz-dev \
+  libfribidi-dev \
+  libtiff-dev \
+  libjpeg-dev
 
 ADD ./inst/bash/install-package-dependencies.sh /app/inst/bash/install-package-dependencies.sh
 ADD ./packrat/packrat.lock ./packrat/packrat.opts ./packrat/init.R /app/packrat/
