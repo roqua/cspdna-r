@@ -1,5 +1,5 @@
 # Full tag, so we don't accidentally go up an R version.
-FROM opencpu/ubuntu-20.04:v2.2.6.2 as builder
+FROM opencpu/ubuntu-22.04:v2.2.11-2 as builder
 
 WORKDIR /app
 
