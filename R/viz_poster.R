@@ -8,11 +8,18 @@
 #' @importFrom dplyr filter
 viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (42 / 2.54)) {
 
-  if( is.character(data) ) { 
-    return( list(errors = data) )
-  } else if( !is.data.frame(data) ) {
-    return( list(errors = "Input not a dataframe"))
-  }
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(poster = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(poster = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
   
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]

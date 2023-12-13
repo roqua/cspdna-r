@@ -6,11 +6,18 @@
 #' @import ggplot2 dplyr forcats svglite tidyr
 viz_report_grid <- function(data, output_format = "svg") {
 
-  if( is.character(data) ) { 
-    return( list(error = data) )
-  } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
-  }
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) { 
+  #   return( 
+  #     list(svgs = list(grid = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(grid = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
   
   # New names of all variables in grid
   grid_nms_mw <- c("Whatsapp", "Bellen", "Deurbel", "Smsen", "Afgezegd", "Werk_school_sport",
@@ -93,6 +100,8 @@ viz_report_grid <- function(data, output_format = "svg") {
     group_by(csp_dna_fase, Variabele, .drop = FALSE) %>%
     # Count how often behaviour occurs in each phase
     summarise(behaviour_sum = sum(Score, na.rm = T)) %>%
+    group_by(Variabele, .drop = FALSE) %>%
+    mutate(n_total_beh = sum(behaviour_sum)) %>% 
     # Add overall phase counts
     left_join(n_fase_grid, by = "csp_dna_fase") %>%
     # Create % behaviour in phase
@@ -101,10 +110,13 @@ viz_report_grid <- function(data, output_format = "svg") {
       n_fase > 0 ~ 100 * behaviour_sum / n_fase) ) %>%
     # Add colours to behaviours
     mutate(clr = case_when(Variabele %in% neg ~ "#CC79A7",
-                           Variabele %in% pos ~ "#56B4E9")) 
+                           Variabele %in% pos ~ "#56B4E9")) %>% 
+    # if behaviour never occurred remove it from data
+    filter(n_total_beh != 0)
 
   # Create ggplot
-  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), y = prop)) +
+  ggplot(data_for_plot, aes(x = forcats::fct_reorder(Variabele, prop, mean, na.rm = TRUE), 
+                            y = prop)) +
     geom_bar(stat = "identity", aes(fill = clr)) +
     scale_y_continuous(limits = c(-10, 110), breaks = c(0, 50, 100), 
                        labels = c("0%", "50%", "100%"), expand = c(0,0)

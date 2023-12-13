@@ -6,11 +6,18 @@
 #' @import dplyr ggplot2 svglite
 viz_report_alone <- function(data, output_format = "svg") {
 
-  if( is.character(data) ) { 
-    return( list(error = data) )
-  } else if( !is.data.frame(data) ) {
-    return( list(error = "Input not a dataframe"))
-  }
+  if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
+  
+  # PLACE HOLDER FOR POTENTIAL ERRORS
+  # if( is.character(data) ) {
+  #   return(
+  #     list(svgs = list(alone = error_to_svg(data)))
+  #   )
+  # } else if( !is.data.frame(data) ) {
+  #   return(
+  #     list(svgs = list(alone = error_to_svg("Input not a dataframe")))
+  #   )
+  # }
   
   # This creates the dataframe for the plot
   # It contains percentages being alone per phase
@@ -46,10 +53,10 @@ viz_report_alone <- function(data, output_format = "svg") {
            lbl = paste0(fase, " [", perc, "%]")) %>% 
     pull(lbl)
 
-  g <- ggplot(d, aes(x = csp_dna_55_a0, y = perc, fill = fase)) +
+  g <- ggplot(d, aes(x = factor(csp_dna_55_a0), y = perc, fill = fase)) +
     geom_bar(position = "stack", stat = "identity") +
     scale_x_discrete(
-      breaks = lbls_alone$csp_dna_55_a0, 
+      breaks = lbls_alone$csp_dna_55_a0,
       labels = lbls_alone$lbl
     ) +
     scale_fill_manual(breaks = factor(c(1, 2, 3, 4)),
