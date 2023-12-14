@@ -7,16 +7,10 @@
 #' @importFrom tidyr gather
 #' @export
 viz_ts <- function(data, left_right) {
-
-  # Create long dataframe
-  long <- data %>%
-    select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
-                    "csp_dna_57a", "csp_dna_fase", "dayno", "pertwee"))) %>%
-    tidyr::gather()
-
+  
   if(left_right == "left") {
     vars_neg <- c("Boos", "Lichamelijke_klachten", "Onrustig", "Spanning")
-
+    
     # This creates a "long" rather than "wide" dataset, necessary for visualisation
     long <- data %>%
       # Selecting relevant variables
@@ -25,7 +19,7 @@ viz_ts <- function(data, left_right) {
       gather(all_of(vars_neg), key = "Var", value = "Score") %>% 
       # Omit missing data
       na.omit()
-
+    
     plot <- ggplot(long, aes(x = Datum, y = Score, colour = Var)) +
       theme_minimal() +
       geom_smooth(se = FALSE, span = 0.2, method = "loess", formula = "y ~ x") +
@@ -33,11 +27,11 @@ viz_ts <- function(data, left_right) {
       scale_colour_brewer(palette = "Set2") +
       theme(legend.position = "top",
             legend.margin = margin(t = 0, b = 0, unit = 'cm'))
-
+    
   } else if(left_right == "right") {
-
+    
     vars_pos <- c("Activiteiten", "Blij", "Verplichtingen", "Zorg_zelf")
-
+    
     # This creates a "long" rather than "wide" dataset, necessary for visualisation
     long <- data %>%
       # Selecting relevant variables
@@ -46,7 +40,7 @@ viz_ts <- function(data, left_right) {
       gather(all_of(vars_pos), key = "Var", value = "Score") %>% 
       # Omit missing data
       na.omit()
-
+    
     plot <- ggplot(long, aes(x = Datum, y = Score, colour = Var)) +
       theme_minimal() +
       geom_smooth(se = FALSE, span = 0.2, method = "loess", formula = "y ~ x") +
@@ -54,8 +48,8 @@ viz_ts <- function(data, left_right) {
       scale_colour_brewer(palette = "Set1") +
       theme(legend.position = "top",
             legend.margin = margin(t = 0, b = 0, unit = 'cm'))
-
+    
   }
-
+  
   return(plot)
 }

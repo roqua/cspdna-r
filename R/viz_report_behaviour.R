@@ -53,9 +53,8 @@ viz_report_behaviour <- function(data, output_format = "svg") {
                              `3` = n_fase_grid$labels[3],
                              `4` = n_fase_grid$labels[4]))
   
-  ggplot(filter(long, !is.na(csp_dna_fase) & !is.na(Score)),
-         aes(x = forcats::fct_reorder(Var, -Score, .na_rm = T), y = Score,
-             colour = pos_neg)) +
+  ggplot(filter(long, !is.na(csp_dna_fase) & !is.na(Score) & !is.na(Var)),
+         aes(x = forcats::fct_reorder(Var, -Score), y = Score, colour = pos_neg)) +
     geom_point(stat = "summary", fun = "mean", size = 4) +
     scale_colour_manual(breaks = c("positief", "negatief"), values = c("#56B4E9", "#CC79A7")) +
     guides(colour = "none") +

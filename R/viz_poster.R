@@ -10,17 +10,6 @@ viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (4
 
   if( !is.data.frame(data) ) return(list(error = "Input not a dataframe"))
   
-  # PLACE HOLDER FOR POTENTIAL ERRORS
-  # if( is.character(data) ) { 
-  #   return( 
-  #     list(svgs = list(poster = error_to_svg(data)))
-  #   )
-  # } else if( !is.data.frame(data) ) {
-  #   return(
-  #     list(svgs = list(poster = error_to_svg("Input not a dataframe")))
-  #   )
-  # }
-  
   no_fig <- unique(data[["pertwee"]])
   no_fig <- no_fig[!is.na(no_fig)]
  
@@ -41,7 +30,9 @@ viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (4
 
     data_zoom <- filter(data, pertwee ==  i)
 
-    combined <- (ts1 + viz_zoom(data_zoom) | ts2 + viz_zoom(data_zoom) ) / viz_nw(data_zoom) / viz_grid(data_zoom) + plot_layout(ncol = 1, heights = c(1, 2, 2))
+    vis_z <- viz_nw(data_zoom)
+    
+    combined <- (ts1 + vis_z | ts2 + vis_z ) / viz_nw(data_zoom) / viz_grid(data_zoom) + plot_layout(ncol = 1, heights = c(1, 2, 2))
 
     #ggsave(paste0("slider_", i,".svg"), combined, width = 36.8, height = 18.3, unit = "cm")
 
@@ -60,6 +51,5 @@ viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (4
   }
   invisible(dev.off())
   #write(as.character(viz_string()), file = "poster_example_new.svg", append = FALSE, ncolumns = 1)
-  # list(svg = as.scalar2(viz_string())) 
   list(svgs = list(poster = as.scalar2(as.character(viz_string()))))
 }
