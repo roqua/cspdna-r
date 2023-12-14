@@ -51,8 +51,7 @@ viz_nw <- function(data, output = "poster") {
   long$abbr <- tolower(substr(long[["Var"]], 1, 4))
   
   # Base plot
-  plot <- ggplot(long,
-                 aes_string(x = "x", y = "y")) +
+  plot <- ggplot(long, aes(x = .data[["x"]], y = .data[["y"]])) +
     geom_point(size = 10, colour = "lightgrey", na.rm = TRUE) +
     scale_x_continuous(expand = c(0.20, 0)) +
     #scale_y_continuous(expand = c(0.20, 0)) +
@@ -70,7 +69,7 @@ viz_nw <- function(data, output = "poster") {
       panel.grid = element_blank()
     ) +
     # Add coloured circles depending on score
-    geom_point(aes_string(size = "Score", colour = "pos_neg"), na.rm = TRUE) +
+    geom_point(aes(size = .data[["Score"]], colour = .data[["pos_neg"]]), na.rm = TRUE) +
     scale_size_area(max_size = 10) +
     scale_colour_manual(values = c("#CC79A7", "#56B4E9")) +
     # Add variable label in circle
