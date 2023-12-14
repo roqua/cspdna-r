@@ -26,11 +26,11 @@ viz_carousel <- function(data, height = 18.3, width = 36.8) {
     # Combine graphs for slider
     
     viz_z <- viz_zoom(data_zoom)
-    combined <- (ts1 + viz_z | ts2 + viz_z ) / viz_nw(data_zoom, output = "slider") / viz_grid(data_zoom) + plot_layout(ncol = 1, heights = c(1, 2, 2))
+    suppressWarnings( combined <- (ts1 + viz_z | ts2 + viz_z ) / viz_nw(data_zoom, output = "slider") / viz_grid(data_zoom) + plot_layout(ncol = 1, heights = c(1, 2, 2)) )
     
     # Create string of svg
     viz_string <- svglite::svgstring(height = 18.3/2.4, width = 36.8/2.4)
-     print(combined)
+    suppressWarnings( print(combined) )
     invisible(dev.off())
 
     # Add svg string to list    
