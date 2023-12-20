@@ -19,6 +19,6 @@ test_that("Correct input returns an svg", {
     "<svg"
   )
   if(Sys.getenv("CI_COMMIT_SHA") == '') {
-    write(result$svgs$poster, file = "../../svgs/poster.svg", append = FALSE, ncolumns = 1)
+    writeLines(result$svgs$poster, "../../svgs/poster.svg", useBytes = TRUE)
   }
 })

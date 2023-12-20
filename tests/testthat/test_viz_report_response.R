@@ -24,6 +24,6 @@ test_that("Correct input for viz_report_response returns an svg", {
     "<svg"
   )
   if(Sys.getenv("CI_COMMIT_SHA") == '') {
-    write(result$svgs$response, file = "../../svgs/response.svg", append = FALSE, ncolumns = 1)
+    writeLines(result$svgs$response, "../../svgs/response.svg", useBytes = TRUE)
   }
 })

@@ -30,7 +30,7 @@ test_that("Correct input for viz_carousel returns an svg", {
   if(Sys.getenv("CI_COMMIT_SHA") == '') {
     for( i in names(result$svgs) ) {
       filename <- paste0("../../svgs/", i , ".svg")
-      write(result$svgs[[i]], file = filename, append = FALSE, ncolumns = 1)
+      writeLines(result$svgs[[i]], filename, useBytes = TRUE)
     }
   }
 })

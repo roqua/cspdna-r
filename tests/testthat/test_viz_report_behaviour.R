@@ -23,6 +23,6 @@ test_that("Correct input for viz_report_alone returns an svg", {
     "<svg"
   )
   if(Sys.getenv("CI_COMMIT_SHA") == '') {
-    write(result$svgs$behaviour, file = "../../svgs/behaviour.svg", append = FALSE, ncolumns = 1)
+    writeLines(result$svgs$behaviour, "../../svgs/behaviour.svg", useBytes = TRUE)
   }
 })
