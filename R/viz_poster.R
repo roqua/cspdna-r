@@ -38,7 +38,7 @@ viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (4
 
     if((j %% 2) == 0) { # if number is even
       col = 2
-      plot(combined, vp = vplayout(row, col)) 
+      plot(combined, vp = vplayout(row, col))
       row = row + 1
       col = 1
       j = j + 1

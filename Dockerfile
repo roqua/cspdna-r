@@ -1,5 +1,5 @@
 # Full tag, so we don't accidentally go up an R version.
-FROM opencpu/ubuntu-20.04:v2.2.6.2 as builder
+FROM opencpu/ubuntu-22.04:v2.2.11-2 as builder
 
 WORKDIR /app
 
@@ -19,6 +19,8 @@ ADD ./packrat/packrat.lock ./packrat/packrat.opts ./packrat/init.R /app/packrat/
 RUN ./inst/bash/install-package-dependencies.sh
 # Add packrat libs to opencpu search path
 ADD ./inst/opencpu_Rprofile /etc/opencpu/Rprofile
+# ADD ./inst/csp_dna.conf /etc/opencpu/server.conf.d/csp_dna.conf
+RUN echo "Mutex posixsem" >> /etc/apache2/apache2.conf
 
 RUN mkdir -p /app/cspdna.Rcheck/tests/ && ln -sf /proc/self/fd/1 /app/cspdna.Rcheck/tests/testthat.Rout
 
