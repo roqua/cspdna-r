@@ -18,8 +18,7 @@ viz_nw <- function(data, output = "poster") {
   # Create long dataframe
   long <- data %>%
     # Select variables
-    select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a",
-                    "csp_dna_57a", "csp_dna_77a", "csp_dna_78a","csp_dna_fase", "dayno", "pertwee",
+    select(all_of(c("Datum","csp_dna_fase", "dayno", "pertwee",
                     positief, negatief))) %>%
     # From wide to long
     gather(all_of(c(positief, negatief)), key = "Var", value = "Score") %>%
@@ -56,7 +55,7 @@ viz_nw <- function(data, output = "poster") {
     scale_x_continuous(expand = c(0.20, 0)) +
     #scale_y_continuous(expand = c(0.20, 0)) +
     coord_fixed() +
-    facet_wrap(as.formula(paste("~", "factor(Datum, ordered = TRUE)")), nrow = 1) +
+    facet_wrap(~Datum, nrow = 1) +
     theme_minimal() +
     theme(
       axis.text = element_blank(),
@@ -82,33 +81,61 @@ viz_nw <- function(data, output = "poster") {
     scale_fill_manual(values = c("1" = "green3", "2" = "yellow2",
                                  "3" = "darkorange", "4" = "firebrick2"), 
                       guide = "none") +
-    ylim(c(-1.27, 1.27)) +
-    # top label
-    geom_label(data = filter(long, !is.na(csp_dna_55a)),
-               aes(x = 0, y = 0.6, label = map_chr(csp_dna_55a, comment_graph)),
-               lineheight = 0.72, size = 3) 
+    ylim(c(-1.27, 1.27)) 
   
   
   if(output == "slider") {
+    # Create labels for slider
+    # Create label dataframe
+    df_label <- data %>%
+      # Select variables
+      select(all_of(c("Datum", "csp_dna_55a", "csp_dna_56a", "csp_dna_57a"))) %>%
+      # Create better labels
+      mutate(
+        csp_dna_55a_v = map_chr(csp_dna_55a, comment_graph),
+        csp_dna_56a_v = map_chr(csp_dna_56a, comment_graph),
+        csp_dna_57a_v = map_chr(csp_dna_57a, comment_graph)
+      )
+    
     # Add event labels for slider
     return(
-      plot + 
-        geom_label(data = filter(long, !is.na(csp_dna_56a)),
-                   aes(x = 0, y = 0.1, label = map_chr(csp_dna_56a, comment_graph)),
+      plot +
+        # top label
+        geom_label(data = filter(df_label, !is.na(csp_dna_55a_v)),
+                   aes(x = 0, y = 0.6, label = csp_dna_55a_v),
+                   lineheight = 0.72, size = 3) + 
+        geom_label(data = filter(df_label, !is.na(csp_dna_56a_v)),
+                   aes(x = 0, y = 0.1, label = csp_dna_56a_v),
                    lineheight = 0.72, size = 3) +
-        geom_label(data = filter(long, !is.na(csp_dna_57a)),
-                   aes(x = 0, y = -0.40, label = map_chr(csp_dna_57a, comment_graph)),
+        geom_label(data = filter(df_label, !is.na(csp_dna_57a_v)),
+                   aes(x = 0, y = -0.40, label = csp_dna_57a_v),
                    lineheight = 0.72, size = 3) 
     )
   } else {
+    # Create labels for poster
+    # Create label dataframe
+    df_label <- data %>%
+      # Select variables
+      select(all_of(c("Datum", "csp_dna_55a", "csp_dna_77a", "csp_dna_78a"))) %>%
+      # Create better labels
+      mutate(
+        csp_dna_55a_v = map_chr(csp_dna_55a, comment_graph),
+        csp_dna_77a_v = map_chr(csp_dna_77a, comment_graph),
+        csp_dna_78a_v = map_chr(csp_dna_78a, comment_graph)
+      )
+    
     # Add event labels for poster
     return(
-      plot + 
-        geom_label(data = filter(long, !is.na(csp_dna_77a)),
-                   aes(x = 0, y = 0.1, label = map_chr(csp_dna_77a, comment_graph)),
+      plot +
+        # top label
+        geom_label(data = filter(df_label, !is.na(csp_dna_55a_v)),
+                   aes(x = 0, y = 0.6, label = csp_dna_55a_v),
+                   lineheight = 0.72, size = 3) + 
+        geom_label(data = filter(df_label, !is.na(csp_dna_77a_v)),
+                   aes(x = 0, y = 0.1, label = csp_dna_77a_v),
                    lineheight = 0.72, size = 3) +
-        geom_label(data = filter(long, !is.na(csp_dna_78a)),
-                   aes(x = 0, y = -0.5, label = map_chr(csp_dna_78a, comment_graph)),
+        geom_label(data = filter(df_label, !is.na(csp_dna_78a_v)),
+                   aes(x = 0, y = -0.5, label = csp_dna_78a_v),
                    lineheight = 0.72, size = 3) 
     )
   }
