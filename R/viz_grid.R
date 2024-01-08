@@ -64,12 +64,10 @@ viz_grid <- function(data) {
            Var2 = fct_inorder(Variabele),
            Score = as.numeric(Score)) %>%
     # Remove missing values for variable clr
-    filter(!is.na(clr)) -> grid_df
-
-  # Creating order in factor
-  grid_df %>%
+    filter(!is.na(clr)) %>% 
+    # Creating order in factor
     group_by(var_cat) %>%
-    mutate(y = dense_rank(as.numeric(Var2))) -> grid_df
+    mutate(y = dense_rank(as.numeric(Var2)))
 
   ggplot(grid_df, aes(x = var_cat, y = y)) +
     geom_blank() +
@@ -85,6 +83,6 @@ viz_grid <- function(data) {
     scale_y_continuous(breaks = c(1:50)) +
     labs(x = NULL, y = NULL) +
     theme(panel.grid.minor = element_blank(),
-          panel.grid.major = element_line(size = 0.5))  +
-    facet_wrap(as.formula(paste("~", "factor(Datum, ordered = TRUE)")), nrow = 1)
+          panel.grid.major = element_line(linewidth = 0.5))  +
+    facet_wrap(~Datum, nrow = 1)
 }
