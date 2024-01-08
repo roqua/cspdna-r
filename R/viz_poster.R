@@ -30,7 +30,7 @@ viz_poster <- function(data, height = 1.6 * (29.7 / 2.54) * 3, width = 2.12 * (4
 
     data_zoom <- filter(data, pertwee ==  i)
 
-    vis_z <- viz_nw(data_zoom)
+    vis_z <- viz_zoom(data_zoom)
     
     combined <- (ts1 + vis_z | ts2 + vis_z ) / viz_nw(data_zoom) / viz_grid(data_zoom) + plot_layout(ncol = 1, heights = c(1, 2, 2))
     
