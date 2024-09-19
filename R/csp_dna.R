@@ -5,7 +5,7 @@ poster <- function(answers) {
   data <- prepare_data(JSON_to_DF(answers))
   
   if( is.character(data) ) {
-    return(list(error = data))
+    return(list(errors = data))
   } 
   
   viz_poster(data)
@@ -18,7 +18,7 @@ report <- function(answers) {
   data <- prepare_data(JSON_to_DF(answers))
   
   if( is.character(data) ) {
-    return(list(error = data))
+    return(list(errors = data))
   } 
   
   errors <- c()
