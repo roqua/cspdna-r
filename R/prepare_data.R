@@ -89,7 +89,8 @@ prepare_data <- function(data) {
     return("Dataset does not have prespecified variable list")
   }
   # If dataset has many completely missing questionnaires (>90%), then stop
-  if( sum(is.na(data$csp_dna_non_response)) / nrow(data) < 0.10 ) {
+  # non-missing value on csp_dna_non_response means entire survey is missing for that date
+  if( sum( !is.na(data$csp_dna_non_response) ) / nrow(data) > 0.90 ) {
     return("Too many non-responses (>90%)")
   }
   # If dataset has fewer than 20 rows, then stop
@@ -166,11 +167,6 @@ prepare_data <- function(data) {
       Slapen = rowMeans(select(., all_of(slapen)), na.rm = TRUE)
     )
 
-  # If dataset has many missings on particular items (>50%), then stop
-  if( (sum(is.nan(data$Bedroefd)) / nrow(data)) > 0.50  ) {
-    return("Too many non-responses on questions on bedroefd")
-  }
-
 
   # New names of all variables in circle
   circle_vars_nms <- c("Bedroefd", "Blij", "Boos" , "Bang", "Energie",
@@ -181,6 +177,17 @@ prepare_data <- function(data) {
                        "Verplichtingen", "Negatief_contact",
                        "Lichamelijke_klachten", "Plezierig", "Onplezierig",
                        "Slapen")
+  
+  # If dataset has many missings on particular items (>50%), then stop
+  for(var in circle_vars_nms) {
+    
+    if( ( sum(is.nan( data[ , var] ) ) / nrow(data) ) > 0.50  ) {
+      return(
+        paste0("Too many non-responses on ", var, " (>50%)")
+      )
+    }
+  }
+  
   
   # Long code to determine which variables were used and should be included in graphics
   # Names of variables Terugtrekken, "...a_na" not included
