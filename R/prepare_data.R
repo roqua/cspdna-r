@@ -91,7 +91,7 @@ prepare_data <- function(data) {
   # If dataset has many completely missing questionnaires (>90%), then stop
   # non-missing value on csp_dna_non_response means entire survey is missing for that date
   if( sum( !is.na(data$csp_dna_non_response) ) / nrow(data) > 0.90 ) {
-    return("Too many non-responses (>90%)")
+    return("Entire surveys were skipped over 90% of the times")
   }
   # If dataset has fewer than 20 rows, then stop
   if( nrow(data) < 20 ) {
@@ -181,9 +181,14 @@ prepare_data <- function(data) {
   # If dataset has many missings on particular items (>50%), then stop
   for(var in circle_vars_nms) {
     
-    if( ( sum(is.nan( data[ , var] ) ) / nrow(data) ) > 0.50  ) {
+    if( sum( !is.nan( data[ , var] ) ) == 0  ) {
       return(
-        paste0("Too many non-responses on ", var, " (>50%)")
+        paste0("All missing values on variable ", var)
+      )
+    } else if( ( sum(is.nan( data[ , var] ) ) / nrow(data) ) > 0.50  ) {
+      return(
+        paste0("Too many non-responses (", round(100 * ( sum(is.nan( data[ , var] ) ) / nrow(data) )) , 
+               "%) on variable ", var, "; should be over 50% complete")
       )
     }
   }
