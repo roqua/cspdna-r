@@ -175,16 +175,16 @@ prepare_data <- function(data) {
                        "Zorg_zelf", "Destructief", "Suicidaliteit",
                        "Activiteiten", "Onrustig", "Bijzondere_ervaringen",
                        "Verplichtingen", "Negatief_contact",
-                       "Lichamelijke_klachten", "Plezierig", "Onplezierig")
+                       "Lichamelijke_klachten", "Plezierig", "Onplezierig",
+                       "Slapen")
   
   # If dataset has many missings on particular items (>50%), then stop
   for(var in circle_vars_nms) {
-    
     if( sum( !is.nan( data[ , var] ) ) == 0  ) {
       return(
         paste0("All missing values on variable ", var)
       )
-    } else if( ( sum(is.nan( data[ , var] ) ) / nrow(data) ) > 0.50  ) {
+    } else if ( var != "Slapen" && ( sum(is.nan( data[ , var] ) ) / nrow(data) ) > 0.50  ) {
       return(
         paste0("Too many non-responses (", round(100 * ( sum(is.nan( data[ , var] ) ) / nrow(data) )) , 
                "%) on variable ", var, "; should be over 50% complete")
