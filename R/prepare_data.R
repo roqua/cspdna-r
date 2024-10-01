@@ -175,8 +175,7 @@ prepare_data <- function(data) {
                        "Zorg_zelf", "Destructief", "Suicidaliteit",
                        "Activiteiten", "Onrustig", "Bijzondere_ervaringen",
                        "Verplichtingen", "Negatief_contact",
-                       "Lichamelijke_klachten", "Plezierig", "Onplezierig",
-                       "Slapen")
+                       "Lichamelijke_klachten", "Plezierig", "Onplezierig")
   
   # If dataset has many missings on particular items (>50%), then stop
   for(var in circle_vars_nms) {
